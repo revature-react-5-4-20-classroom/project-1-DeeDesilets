@@ -20,9 +20,9 @@ export default class WinLogOut extends React.Component <IWinLogOutProps> {
         
         return (
             <>
-            <h6>Thanks for stopping by {this.props.username}.</h6>
-            <h6>Come again, soon.</h6>
-            <h6> Good Bye. </h6>
+            <h1>Thanks for stopping by {this.props.username}.</h1>
+            <h1>Come again, soon.</h1>
+            <h1> Good Bye. </h1>
             </>
         );
     }

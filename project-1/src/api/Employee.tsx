@@ -55,7 +55,7 @@ export async function checkingCredentials (un: string, pw: string): Promise<User
   try {
   console.log('inside try block');
     let response = await employee.post('/login', {username: un, password: pw});
-    console.log ('between axios message sent and response.data');
+    console.log (response);
     let {id, username, password, firstname, lastname, email, role} = response.data;
     console.log(`id= ${id}, and username= ${username}...`)
     return new User(id, username, password, firstname, lastname, email, role);
