@@ -1,63 +1,59 @@
-import React, {Component} from 'react';
-import { BrowserRouter as Router, Route, Switch, NavLink } from 'react-router-dom';
-import User from '../models/User';
+import  React from 'react';
+
+interface IWinManagerPageProps
+{username: string}
 
 
-
-export default class WinManagerPage extends React.Component {
+export default class WinManagerPage extends React.Component <IWinManagerPageProps>  {
 
     render () {
         return (
-            <div>
-                 <p> What would you like to start with today? </p>
-               <Router>
-                    <Switch>
-                        <Route path='/submit'>
-                            <NavLink to="/submit" >
-                                <button type="button">
+            <>
+                 <p> Hello, {this.props.username}, Welcome back. </p>
+                 <p>what would you like to start with today?</p>
+                    <div>
+                                <button >
                                     Submit a new reimbursement
-                                </button>
-                            </NavLink>
-                        </Route>
-                        <Route path='/viewuser'>
-                            <NavLink to="/viewuser" >
-                                <button type="button">
+                                </button> 
+                    </div>  
+                    <br/>      
+                    <div>   
+                           
+                                <button >
                                     View your own user information
                                 </button>
-                            </NavLink>
-                        </Route>
                             
-                        <Route path='/viewreimbs'>
-                           <NavLink to="/viewreimbs" >
-                                <button type="button">
-                                    View all your reimbursements
-                                </button>
-                            </NavLink>
-                        </Route>
-                        <Route path='/allusers'>
-                            <NavLink to="/allusers" >
-                                <button type="button">
-                                    View all users
-                                </button>
-                            </NavLink>
-                        </Route>
-                        <Route path='/allreimbs'>
-                            <NavLink to="/allreimbs" >
-                                <button type="button">
+                    </div>  
+                    <br/>
+                    <div>
+                                <button >
+                                    View all your past and current reimbursements
+                                </button> 
+                    </div>  
+                    <br/>      
+                    <div>   
+                           
+                                <button >
                                     View all reimbursements
                                 </button>
-                            </NavLink>
-                        </Route>
-                        <Route path='/logout'>
-                            <NavLink to="/reimbursements" >
-                                <button type="button">
-                                    Log out
+                            
+                    </div>  
+                    <br/>
+                    <div>
+                                <button >
+                                    View all Employees
+                                </button> 
+                    </div>  
+                    <br/> 
+                    <div>   
+                           
+                                <button >
+                                    Log Out
                                 </button>
-                            </NavLink>
-                        </Route>
-                   </Switch>
-                </Router>
-            </div>
+                            
+                    </div>  
+                    <br/>    
+            </>
         );
     }
 }

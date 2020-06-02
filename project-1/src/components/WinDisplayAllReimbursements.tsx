@@ -1,5 +1,4 @@
 import React from 'react';
-import { Table } from 'reactstrap';
 import TabAllReimbursements from './TabAllReimbursements';
 
 export default class WinDisplayAllReimbursements extends React.Component {

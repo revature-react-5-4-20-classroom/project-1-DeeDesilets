@@ -1,6 +1,5 @@
 import React from 'react';
 import { Table } from 'reactstrap';
-import  User  from '../models/User';
 
 export default class AllUsers extends React.Component {
   render() {

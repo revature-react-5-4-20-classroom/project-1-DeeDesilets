@@ -1,38 +1,39 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch, NavLink } from 'react-router-dom';
 
-export default class WinEmployeePage extends React.Component  {
+interface IWinEmployeePage {username: string;}
+
+export default class WinEmployeePage extends React.Component <IWinEmployeePage> {
 
     render () {
         return (
             <div>
+                 <p>Hello, employee.  Welcome back.</p>   
                  <p> What would you like to start with today? </p>
-               <Router>
-                    <Switch>
-                        <Route path='/submit'>
-                            <NavLink to="/submit" >
+                 <br/>
+                        <div>
                                 <button type="button">
                                     Submit a new reimbursement
                                 </button>
-                            </NavLink>
-                        </Route>
-                        <Route path='/viewuser'>
-                            <NavLink to="/viewuser" >
+                        </div> 
+                        <br/> 
+                        <div>
                                 <button type="button">
                                     View your own user information
                                 </button>
-                            </NavLink>
-                        </Route>
-                            
-                        <Route path='/viewreimbs'>
-                           <NavLink to="/viewreimbs" >
+                        </div> 
+                        <br/>
+                        <div>  
                                 <button type="button">
                                     View all your reimbursements
                                 </button>
-                            </NavLink>
-                        </Route>
-                    </Switch>
-                </Router>
+                        </div> 
+                        <br/>
+                        <div>
+                                <button type="button">
+                                    Log Out
+                                </button>
+                        </div>    
+                        
             </div>
         );
     }

@@ -1,19 +1,15 @@
-import React, {Component} from 'react';
+import React from 'react';
 import  User  from '../models/User';
-import { Form, FormGroup, Label, Col, Input, Button, Toast, ToastHeader, ToastBody } from 'reactstrap';
+import { Form, FormGroup, Label, Col, Input, Button, Toast, ToastHeader, ToastBody,  } from 'reactstrap';
 import { checkingCredentials } from '../api/Employee';
-import FailedLogIn from '../errors/FailedLogIn';
-import WinManagerPage from './WinManagerPage';
-import WinManageEmployeePage from './WinEmployeePage';
 
 
-//the updateUser prop takes a function that takes a user and returns void
 
-// it will match updateUser in App.
 
 interface IWinLogInProps {
 
   updateUser: (user:User) => void;
+  
 
 }
 
@@ -35,7 +31,7 @@ interface IWinLogInState {
 
 
 
-export class WinLogIn extends React.Component<IWinLogInProps, IWinLogInState> {
+export class WinLogIn extends React.Component <IWinLogInProps, IWinLogInState> {
 
 
 
@@ -110,55 +106,49 @@ export class WinLogIn extends React.Component<IWinLogInProps, IWinLogInState> {
 
   }
 
-
-
-  attemptLogin = async (event: any) => {
-
+  handleChange = (event : any) => {
+    this.setUsername (event.target.value);
+    
+    
+  }
+   
+  
+  handleSubmit = async (event: any) => {
+    console.log('attempt login before prevent default');
     event.preventDefault();
 
     console.log(event);
 
     try {
-
-      const loggedInUser : User = await checkingCredentials(this.state.username, this.state.password);
-
+      console.log("1st line in try");
+      let loggedInUser : User = await checkingCredentials(this.state.username, this.state.password);
+      console.log (loggedInUser);
       this.props.updateUser(loggedInUser);
-
+      console.log (loggedInUser);
       this.setState({
 
         username: loggedInUser.username,
 
         password: loggedInUser.password,
 
-        role: loggedInUser.role
-
+        role: loggedInUser.role,
+        
       });
-
-      //let nextUp 
-
-      if (loggedInUser.role === 'admin' || loggedInUser.role === 'finance manager') {
-
-          //
-
-      } else if (loggedInUser)  {
-          
-         //  
-
-      } else {
-        throw new FailedLogIn ('Failed to authenticate.  Please try again.')
-      }
-  
+      console.log (`username is ${this.state.username}, password is ${this.state.password}, and role is ${this.state.role}.`);
     } catch (error) {
 
       this.setState({
+        username: '',
 
         password: '',
+
+        role: '',
 
         isError: true,
 
         errorMessage: error.message,
 
-      })
+      });
 
     }
 
@@ -170,23 +160,23 @@ export class WinLogIn extends React.Component<IWinLogInProps, IWinLogInState> {
 
     return (
 
-      <div>
+      <>
 
-      <Form onSubmit={this.attemptLogin}>
+      <Form onSubmit={this.handleSubmit} name="login">
 
         <FormGroup row>
-
+ 
           <Label for="username" sm={2}>Username</Label>
 
           <Col sm={6}>
 
             {/* onChange lets Input change state, value lets Input display state */}
 
-            <Input   type="text" name="username" id="username" placeholder="your username" />
+            <Input  onChange = {(event)=>this.handleChange}   type="text" name="username" id="username" placeholder="your username" />
 
           </Col>
 
-        </FormGroup>
+        </FormGroup> 
         <br/>
 
         <FormGroup row>
@@ -195,15 +185,16 @@ export class WinLogIn extends React.Component<IWinLogInProps, IWinLogInState> {
 
           <Col sm={6}>
 
-            <Input  type="password" name="password" id="password" required />
+            <Input  type ="password" name="password" id="password" required />
 
           </Col>
 
         </FormGroup>
         <br/>
 
-        <Button color="info">Submit</Button>
-
+        
+        <Button type="submit">Submit</Button>
+        
       </Form>
 
       <Toast isOpen={this.state.isError}>
@@ -223,10 +214,9 @@ export class WinLogIn extends React.Component<IWinLogInProps, IWinLogInState> {
 
 
       </Toast>
+  </>
 
-      </div>
-
-    );
+  );
 
   }
 
