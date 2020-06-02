@@ -7,7 +7,7 @@ import FailedUpdate from '../errors/FailedUpdate';
 
 const employee = axios.create({
 
-    baseURL: 'http://3.81.26.224:6464',
+    baseURL: 'http://localhost:6464',
   
     withCredentials: true,
   
@@ -54,6 +54,8 @@ export async function checkingCredentials (un: string, pw: string): Promise<User
  console.log('inside checking credentials on #1');
   try {
   console.log('inside try block');
+  console.log(`username is ${un} and password is ${pw}`);
+
     let response = await employee.post('/login', {username: un, password: pw});
     console.log (response);
     let {id, username, password, firstname, lastname, email, role} = response.data;
@@ -61,7 +63,8 @@ export async function checkingCredentials (un: string, pw: string): Promise<User
     return new User(id, username, password, firstname, lastname, email, role);
   } catch (e) {
     console.log('inside catch block');
-      throw new FailedLogIn('Failed to authenticate.');
+console.log(e);
+    throw new FailedLogIn('Failed to authenticate.');
     
     }
 }

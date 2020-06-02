@@ -107,7 +107,7 @@ export class WinLogIn extends React.Component <IWinLogInProps, IWinLogInState> {
   }
 
   handleChange = (event : any) => {
-    this.setUsername (event.target.value);
+    this.setUsername (event.currentTarget.value);
     
     
   }
@@ -172,7 +172,7 @@ export class WinLogIn extends React.Component <IWinLogInProps, IWinLogInState> {
 
             {/* onChange lets Input change state, value lets Input display state */}
 
-            <Input  onChange = {(event)=>this.handleChange}   type="text" name="username" id="username" placeholder="your username" />
+            <Input  onChange={(event)=>this.handleChange}   type="text" name="username" id="username" placeholder="your username" />
 
           </Col>
 
