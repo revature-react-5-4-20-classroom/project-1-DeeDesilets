@@ -1,6 +1,14 @@
 import React from 'react';
 
-export default class WinUpdateReimbursements extends React.Component  {
+interface IWinUpdateReimbursementsProps {
+    history: any;
+}
+
+export default class WinUpdateReimbursements extends React.Component <IWinUpdateReimbursementsProps> {
+
+    nextPath(path: any) {
+        this.props.history.push(path);
+      }
 
     render()  {
         return (
@@ -28,7 +36,7 @@ export default class WinUpdateReimbursements extends React.Component  {
                 <button>Back to menu</button> 
                 <br/> 
                 <br/>
-                <button >Log Out</button>
+                <button onClick={() => this.nextPath('/logout')}>Log Out</button>
                 <br/> 
                 <br/>    
                             

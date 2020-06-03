@@ -1,12 +1,28 @@
 import React from 'react';
 
-export default class AddNewUser extends React.Component  {
+interface IWinUpdateUserProps {
+    history: any;
+  }
+
+export default class WnUpdateUser extends React.Component  <IWinUpdateUserProps> {
+
+    nextPath(path: any) {
+        this.props.history.push(path);
+      }
 
     render()  {
         return (
             <div>
-                <span> <button>Log Out</button></span><br/>
-                <span><button>Back to Menu</button></span><br/>
+                <button onClick={() => this.nextPath('/logout')}>
+                              Log Out
+                           </button>
+                                     
+                    
+         
+                   
+                   <button onClick={() => this.nextPath('/manager')}>
+                             Menu Page
+                           </button>
                 <form name='newuser'>
                     <label>Username:</label>
                     <input id="uname" type="text"></input>

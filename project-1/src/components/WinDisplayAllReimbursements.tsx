@@ -1,12 +1,29 @@
 import React from 'react';
 import TabAllReimbursements from './TabAllReimbursements';
 
-export default class WinDisplayAllReimbursements extends React.Component {
+interface IWinDisplayAllReimbursementsProps {
+  history: any;
+}
+
+export default class WinDisplayAllReimbursements extends React.Component <IWinDisplayAllReimbursementsProps> {
+
+  nextPath(path: any) {
+    this.props.history.push(path);
+  }
 
     render () {
       return (
         <div>
-          {/*Log Out, Return to Menu, and Update buttons*/}
+          <button onClick={() => this.nextPath('/logout')}>
+                              Log Out
+                           </button>
+                                     
+                    
+         
+                   
+                   <button onClick={() => this.nextPath('/manager')}>
+                             Menu Page
+                           </button>
           <h3>Table of Reimbusements</h3>
           <TabAllReimbursements/>
 

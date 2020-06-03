@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table } from 'reactstrap';
 
-export default class AllUsers extends React.Component {
+export default class TabAllUsers extends React.Component {
   render() {
     return (
     <Table responsive>

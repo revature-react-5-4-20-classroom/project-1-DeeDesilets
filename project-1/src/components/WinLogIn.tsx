@@ -2,13 +2,14 @@ import React from 'react';
 import  User  from '../models/User';
 import { Form, FormGroup, Label, Col, Input, Button, Toast, ToastHeader, ToastBody, NavLink,  } from 'reactstrap';
 import { checkingCredentials } from '../api/Employee';
-import {BrowserRouter as Router} from 'react-router-dom';
+
 
 
 
 
 interface IWinLogInProps {
 
+  history: any;
   updateUser: (user:User) => void;
   
 
@@ -24,7 +25,7 @@ interface IWinLogInState {
 
   role: string;
 
-  roleRoute: number;
+  roleRoute:string;
 
   isError: boolean;
 
@@ -34,7 +35,7 @@ interface IWinLogInState {
 
 
 
-export class WinLogIn extends React.Component <IWinLogInProps, IWinLogInState> {
+export default class WinLogIn extends React.Component <IWinLogInProps, IWinLogInState> {
 
 
 
@@ -50,7 +51,7 @@ export class WinLogIn extends React.Component <IWinLogInProps, IWinLogInState> {
 
       role: '',
 
-      roleRoute: 0,
+      roleRoute: " ",
 
       isError: false,
 
@@ -111,20 +112,16 @@ export class WinLogIn extends React.Component <IWinLogInProps, IWinLogInState> {
 
   }
 
-  setRoleRoute = (role: string) => {
-    if (role === 'finance manager' || role === 'admin') {
-      this.setState({
-        roleRoute : 1,})
-    } else if (role === 'employee')  {
-      this.setState({
-        roleRoute : 2,
-      })
-    } else {
-      this.setState({
-        roleRoute : 0,
-    })
-  }
-}
+  path: string = " ";
+    nextPath = (path: any) => {
+    if (this.state.role && (this.state.role ==='finance manager' || this.state.role ==='admin'))  {
+      path = '/manager"';
+    } else if (this.state.role && this.state.role === 'employee') {
+      path = '/employee'
+    } else {}
+    this.props.history.push({path});
+    }
+
   
 
   handleChange = (event : any) => {
@@ -241,10 +238,13 @@ export class WinLogIn extends React.Component <IWinLogInProps, IWinLogInState> {
 
       </Toast>
 
-  <Router>
-    <NavLink to="/manager" Label="Managers'Home Page"></NavLink>
-    <NavLink to="/employee" Label="Employees' Home Page"></NavLink>
-  </Router>
+        
+
+          
+        {() => this.nextPath(this.path)}>
+          
+
+
 
 </>
 );

@@ -1,10 +1,26 @@
 import React from 'react';
 
-export default class WinESubmitReimbursement extends React.Component  {
+interface IWinSubmitReimbursementProps {
+    history: any;
+    role: string;
+}
+
+export default class WinSubmitReimbursement extends React.Component <IWinSubmitReimbursementProps> {
+
+    path: string = " ";
+    nextPath = (path: any) => {
+    if (this.props.role && (this.props.role ==='finance manager' || this.props.role ==='admin'))  {
+      path = '/manager"';
+    } else if (this.props.role && this.props.role === 'employee') {
+      path = '/employee'
+    } else {}
+    this.props.history.push({path});
+    }
+
 
     render()  {
         return (
-            <div>
+            <>
                 <p>Please complete all fields.</p>
                 <form name='newreimbursement'  >
                 <label>Employee Id:</label>
@@ -30,17 +46,22 @@ export default class WinESubmitReimbursement extends React.Component  {
                 <button type="submit">Submit</button>
                 <br/>  
                 <br/>    
-                <button >Upload a receipt</button>
-                <br/>
-                <br/>
-                <button>Back to menu</button> 
+                <input type="file">upload receipt here</input>
+                  
+
+          
+                <button onClick={() => this.nextPath(this.path)}>
+                    Menu Page
+                  </button>
+
+                
                 <br/> 
                 <br/>
-                <button >Log Out</button>
+                <button onClick={() => this.nextPath('/logout')}>Log Out</button>
                 <br/> 
                 <br/>    
             </form>
-            </div>
+            </>
         );
     }
 }

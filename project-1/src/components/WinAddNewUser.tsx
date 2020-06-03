@@ -1,12 +1,35 @@
 import React from 'react';
 
-export default class AddNewUser extends React.Component  {
+interface IWinAddNewUser {
+    history: any;
+    
+}
+
+
+
+export default class WinAddNewUser extends React.Component <IWinAddNewUser>  {
+
+    nextPath(path: any) {
+        this.props.history.push(path);
+      }
 
     render()  {
         return (
-            <div>
-                <button>Log Out</button>
-                <button>Back to Menu</button>
+            <>
+                   
+                           
+                           <button onClick={() => this.nextPath('/logout')}>
+                              Log Out
+                           </button>
+                                     
+                    
+         
+                   
+                   <button onClick={() => this.nextPath('/manager')}>
+                             Menu Page
+                           </button>
+         
+                 
                 <form name='newuser' >
                     <label>Username:</label>
                     <input id="uname" type="text"></input>
@@ -29,7 +52,7 @@ export default class AddNewUser extends React.Component  {
                     <button id="submit" type="submit">Submit</button>
                     <br/><br/>
             </form>
-            </div>
+            </>
         );
     }
 }
