@@ -1,8 +1,8 @@
 import axios from 'axios';
 import Reimbursement  from '../models/Reimbursement';
 import User  from '../models/User';
-import FailedLogIn from '../errors/FailedLogIn';
 import FailedUpdate from '../errors/FailedUpdate';
+
 
 
 const employee = axios.create({
@@ -54,7 +54,7 @@ export async function submitReimbursements (reimbursementId = 0, author: number,
     }
   } 
 
-export async function getUserById(id: number) : Promise<User> {
+export async function getUserById(id: number) : Promise<User []> {
 
   const response = await employee.get('/users/id:');
 
@@ -64,25 +64,39 @@ export async function getUserById(id: number) : Promise<User> {
   });
 }
 
-export async function checkingCredentials (un: string, pw: string): Promise<User> {
- console.log('inside checking credentials on #1');
-  try {
-  console.log('inside try block');
-  console.log(`username is ${un} and password is ${pw}`);
 
-    let response = await employee.post('/login', {username: un, password: pw});
-    console.log (response);
-    let {id, username, password, firstname, lastname, email, role} = response.data;
-    console.log(`id= ${id}, and username= ${username}...`)
-    return new User(id, username, password, firstname, lastname, email, role);
-  } catch (e) {
-    console.log('inside catch block');
-console.log(e);
-    throw new FailedLogIn('Failed to authenticate.');
-    
+
+  export async function checkingCredentials(un: string, pw: string): Promise<User> {
+
+    try {
+  
+      const response = await employee.post("/login", {
+  
+        username: un,
+  
+        password: pw,
+  
+      });
+  
+      const { id, username, password, firstname, lastname, email, role } = response.data;
+  
+      return new User(id, username, password, firstname, lastname,email, role);
+  
+    } catch (e) {
+  
+      if (e.response.status === 401) {
+  
+        throw new Error(`Failed to authenticate with username ${un}`);
+  
+      } else {
+  
+        throw new Error("There was a problem logging in");
+  
+      }
+  
     }
-}
-
+  
+  }
 export async function getAllReimbursements () : Promise <Reimbursement[]> {
 
   let response = await employee.get('/reimbursements');
@@ -109,3 +123,15 @@ export async function getAllUsers () : Promise <User[]> {
   });
 }
 
+export async function addNewUser (user: User) : Promise <User[]> {
+
+  let response = await employee.post('/users', {"username" : "{user.username}", "password" : "{user.password}", "firstname" : "{user.firstname}", "lastname" : "{user.lastname}", "email" : "{user.email}", "role" : "{user.role}"});
+
+  return response.data.map((u : User) => {
+
+    let {userId, username, password, firstName, lastName, email, role} = u;
+
+    return new User (userId, username, password, firstName, lastName, email, role);
+  
+  });
+}

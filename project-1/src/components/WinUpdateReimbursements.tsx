@@ -6,9 +6,7 @@ interface IWinUpdateReimbursementsProps {
 
 export default class WinUpdateReimbursements extends React.Component <IWinUpdateReimbursementsProps> {
 
-    nextPath(path: any) {
-        this.props.history.push(path);
-      }
+    
 
     render()  {
         return (
@@ -33,10 +31,10 @@ export default class WinUpdateReimbursements extends React.Component <IWinUpdate
                 <button >Upload a receipt</button>
                 <br/>
                 <br/>
-                <button>Back to menu</button> 
+                <button onClick = {this.props.history.push('manager')}>Back to menu</button> 
                 <br/> 
                 <br/>
-                <button onClick={() => this.nextPath('/logout')}>Log Out</button>
+                <button onClick={this.props.history.push('/logout')}>Log Out</button>
                 <br/> 
                 <br/>    
                             

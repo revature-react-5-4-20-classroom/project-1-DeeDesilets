@@ -1,8 +1,7 @@
 
 import React from 'react';
 import User from '../models/User';
-import {BrowserRouter as Router} from 'react-router-dom';
-import { NavLink } from 'react-router-dom';
+
 
 
 
@@ -20,20 +19,17 @@ export default class WinLogOut extends React.Component <IWinLogOutProps> {
 
         }
          
-    nextPath(path: any) {
-            this.props.history.push(path);
-          }
-
+    
     
          
     render() {
         
         return (
             <>
-            <h1>Thanks for stopping by {this.props.username}.</h1>
+            <h1>Thanks for stopping by, {this.props.username}.</h1>
             <h1>Come again, soon.</h1>
             <h1> Good Bye. </h1>
-            {() => this.nextPath('/logout')}
+            {this.props.history.push('/login')}
 
             </>
         );

@@ -1,75 +1,195 @@
-import  React from 'react';
-import  User  from './models/User';
-import  WinLogIn  from './components/WinLogIn';
-import WinEmployeePage from './components/WinEmployeePage';
-import WinManagerPage from './components/WinManagerPage';
-import WinDisplayUserInfo from './components/WinDisplayUserInfo';
-import WinSubmitReimbursement from './components/WinSubmitReimbursement';
-import WinDisplayReimbursements from './components/WinDisplayReimbursements';
-import WinDisplayAllReimbursements from './components/WinDisplayAllReimbursements';
-import WinDisplayAllUsers from './components/WinDisplayAllUsers';
-import WinAddNewUser from './components/WinAddNewUser';
-import WinUpdateUser from './components/WinUpdateUser';
-import WinUpdateReimbursements from './components/WinUpdateReimbursements';
-import WinLogOut from './components/WinLogOut';
-import {BrowserRouter as Router, Switch, Route} from "react-router-dom"
+import React from "react";
+
+import {
+
+  BrowserRouter as Router,
+
+  Route,
+
+  Switch,
+
+  Redirect,
+
+} from "react-router-dom";
+
+import { ToastContainer, toast } from "react-toastify";
+
+import  WinLogIn from "./components/WinLogIn";
+
+import  User  from "./models/User";
+
+import  Navigation  from "./components/Navigation";
+
+import  UserPage  from "./components/UserPage"
+
+import  ReimbursementsPage  from "./components/ReimbursementsPage";
+
+import { Jumbotron } from "reactstrap";
 
 
-interface IAppState {
-  loggedInUser: User,
- 
-}
 
-export default class App extends React.Component <any, IAppState> {
+export default class App extends React.Component<any, any> {
+
   constructor(props: any) {
+
     super(props);
+
+
+
     this.state = {
-      loggedInUser: new User(0, " "," ", " ", " ", " ", " ")
-    }  
+
+      loggedInUser: null,
+
+    };
+
   }
 
-  updateUser= (user: User) => {
-        this.setState({loggedInUser: user});
-  }
-  
+
+
+  updateLoggedInUser = (u: User) => {
+
+    this.setState({
+
+      loggedInUser: u,
+
+    });
+
+  };
+
+
+
+  logoutUser = () => {
+
+    this.setState({
+
+      loggedInUser: null,
+
+    });
+
+  };
+
+
 
   render() {
-     
-    return (
-    
-      <>
-          
-              <h1>ABC Corp</h1>
-              <h6>Where it pays to go to work</h6>
-              <h4>Welcome to the Expense Reimbursement System</h4>
-      <Router>
-        <Switch>      
-          <Route path='/' render= {({history}) => {return (<WinLogIn history = {history} updateUser = {this.updateUser} />)}} />
-       
-          <Route path='/manager' render={({history})=>{return (<WinManagerPage history={history} username = {this.state.loggedInUser && this.state.loggedInUser.username}/>)}}/>
-            
-          <Route path='/employee'  render={({history})=>{return (<WinEmployeePage history={history} username = {this.state.loggedInUser && this.state.loggedInUser.username}/>)}}/>
 
-          <Route path='/submitreimbursement' render={({history})=>{return (<WinSubmitReimbursement history={history} role ={this.state.loggedInUser && this.state.loggedInUser.role} />)}}/> 
-          
-          <Route path='/displayuser' render={({history})=>{return (<WinDisplayUserInfo history={history} role ={this.state.loggedInUser && this.state.loggedInUser.role} />)}}/>
-              
-          <Route path='/displayreimbursements' render={({history})=>{return (<WinDisplayReimbursements history={history} role ={this.state.loggedInUser && this.state.loggedInUser.role} />)}}/>
-               
-          <Route path='/displayallreimbursements' render={({history})=>{return (<WinDisplayAllReimbursements history={history}  />)}}/>
-               
-          <Route path='/displayallusers' render={({history})=>{return (<WinDisplayAllUsers history={history}  />)}}/>
-               
-          <Route path='/addnewuser' render={({history})=>{return (<WinAddNewUser history={history} /> )}} />
-              
-          <Route path='/updateuser' render={({history})=>{return (<WinUpdateUser history={history}  />)}} />
-             
-          <Route path='/updatereimbursements' render={({history})=>{return (<WinUpdateReimbursements history={history}  />)}}/>           
-               
-          <Route path='/logout'  render={({history})=>{return <WinLogOut updateUser={this.updateUser} username = {this.state.loggedInUser && this.state.loggedInUser.username} history={history}/>}} />
-              
-        </Switch>
-      </Router>
-    </ >
-    );}
+    return (
+
+      <div className="App">
+
+        <Router>
+
+          <Navigation
+
+            logoutUser={this.logoutUser}
+
+            loggedInUser={this.state.loggedInUser}
+
+          />
+
+          <Jumbotron>
+
+            <h1 className="display-4"><span role="img" aria-label="Library App banner with book emoji">📚Library App📚</span></h1>
+
+          </Jumbotron>
+
+          <Switch>
+
+            {/* This Route redirects people hitting the root url to either home or login, just a QoL thing */}
+
+            <Route exact path="/">
+
+              {this.state.loggedInUser ? (
+
+                <Redirect to="/home" />
+
+              ) : (
+
+                <Redirect to="/login" />
+
+              )}
+
+            </Route>
+
+            {/* This is a Route to a login form */}
+
+            <Route
+
+              path="/login"
+
+              render={(props: any) => {
+
+                return (
+
+                  <WinLogIn {...props} updateUser={this.updateLoggedInUser} />
+
+                );
+
+              }}
+
+            />
+
+            {/* This route is just a placeholder for a homepage */}
+
+            <Route path="/home">
+
+              <h2>
+
+                Welcome{" "}
+
+                {this.state.loggedInUser
+
+                  ? `home, ${this.state.loggedInUser.username}!`
+
+                  : "guest!"}
+
+              </h2>
+
+            </Route>
+
+            {/* This is a Route to a public books page.  It displays differently based on the logged in user. */}
+
+            <Route path="/books">
+
+              <ReimbursementsPage loggedInUser={this.state.loggedInUser} />
+
+            </Route>
+
+            {/* This is a Route to a private users page, only accessible by Admins */}
+
+            <Route path="/users">
+
+              {(this.state.loggedInUser && this.state.loggedInUser.role === 'Admin') ? <UserPage /> : <h4>Only admins can see all users</h4>}
+
+            </Route>
+
+            {/* This is a catchall route that redirects the user if they enter a route we dont have */}
+
+            <Route
+
+              path="*"
+
+              render={(props: any) => {
+
+                toast(`No route found for ${props.location.pathname}`);
+
+                return <Redirect to="/" />;
+
+              }}
+
+            ></Route>
+
+          </Switch>
+
+        </Router>
+
+
+
+        <ToastContainer />
+
+      </div>
+
+    );
+
+  }
+
 }

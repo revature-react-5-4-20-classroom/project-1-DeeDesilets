@@ -4,10 +4,10 @@ interface IWinEmployeePage {username: string; history: any}
 
 export default class WinEmployeePage extends React.Component <IWinEmployeePage> {
     
-    nextPath(path: any) {
+    
+nextPath(path: any) {
         this.props.history.push(path);
       }
-
     render () {
         return (
             <div>
