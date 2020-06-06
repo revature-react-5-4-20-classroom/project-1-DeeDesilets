@@ -2,7 +2,7 @@ import React from "react";
 
 import { Container, Row, Col, Spinner } from "reactstrap";
 
-import { ObjectTable } from "./TableModel";
+import  TableModel  from "./TableModel";
 
 import { toast } from "react-toastify";
 
@@ -64,7 +64,7 @@ export default class UserPage extends React.Component<any, any> {
 
             {this.state.usersLoaded ? (
 
-              <ObjectTable objects={this.state.users} />
+              <TableModel objects={this.state.users} />
 
             ) : (
 

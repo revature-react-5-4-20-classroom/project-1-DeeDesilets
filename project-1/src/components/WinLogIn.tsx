@@ -26,15 +26,32 @@ import { checkingCredentials } from "../api/Employee";
 
 import { toast } from "react-toastify";
 
+interface IWinLogInProps {
+  history: any;
+  updateLoggedInUser: (u: User) => void;
+  loggedInUser: User;
+
+}
+
+interface IWinLogInState {
+  
+  username: string;
+
+  password: string;
+
+}
 
 
-export default class WinLogIn extends React.Component<any, any> {
 
-  constructor(props: any) {
+export default class WinLogIn extends React.Component<IWinLogInProps, IWinLogInState> {
+
+  constructor(props: IWinLogInProps) {
 
     super(props);
 
     this.state = {
+
+      
 
       username: "",
 
@@ -76,7 +93,7 @@ export default class WinLogIn extends React.Component<any, any> {
 
     try {
 
-      const loggedInUser: User = await checkingCredentials(
+      const loggingInUser: User = await checkingCredentials(
 
         this.state.username,
 
@@ -84,7 +101,7 @@ export default class WinLogIn extends React.Component<any, any> {
 
       );
 
-      this.props.updateUser(loggedInUser);
+      this.props.updateLoggedInUser(loggingInUser);
 
       this.props.history.push("/home");
 
@@ -138,6 +155,8 @@ export default class WinLogIn extends React.Component<any, any> {
 
               </FormGroup>
 
+              <br/>  <br/>
+
               <FormGroup>
 
                 <Label for="password">Password</Label>
@@ -159,6 +178,8 @@ export default class WinLogIn extends React.Component<any, any> {
                 />
 
               </FormGroup>
+
+              <br/>  <br/>
 
               <Button>Login</Button>
 

@@ -1,44 +1,43 @@
 import React from 'react';
+import User from '../models/User';
+import { NavItem, Nav, } from 'reactstrap';
+import { NavLink } from 'react-router-dom';
 
-interface IWinEmployeePage {username: string; history: any}
+interface IWinEmployeePageProps {loggedInUser: User; logoutUser: ()=>void; history: any}
 
-export default class WinEmployeePage extends React.Component <IWinEmployeePage> {
+export default class WinEmployeePage extends React.Component <IWinEmployeePageProps, any> {
     
-    
-nextPath(path: any) {
-        this.props.history.push(path);
-      }
-    render () {
-        return (
-            <div>
-                 <p>Hello, employee.  Welcome back.</p>   
-                 <p> What would you like to start with today? </p>
-                 <br/>
-                        <div>
-                                <button onClick={() => this.nextPath('/submit')}>
-                                    Submit a new reimbursement
-                                </button>
-                        </div> 
-                        <br/> 
-                        <div>
-                                <button onClick={() => this.nextPath('/displayuser')}>
-                                    View your own user information
-                                </button>
-                        </div> 
-                        <br/>
-                        <div>  
-                                <button onClick={() => this.nextPath('/displayreimbursements')}>
-                                    View all your reimbursements
-                                </button>
-                        </div> 
-                        <br/>
-                        <div>
-                                <button onClick={() => this.nextPath('/logout')}>
-                                    Log Out
-                                </button>
-                        </div>    
-                        
-            </div>
-        );
-    }
+  render () {
+    return (
+      <>
+        <p>Hello, {this.props.loggedInUser.firstName}.  Welcome back.</p>   
+        <p> What would you like to start with today? </p>
+        <br/>
+
+        <Nav tabs>
+          <NavItem>
+
+            <NavLink  to="/submit" className="nav-link" activeClassName="active">Submit a Reimbursement</NavLink>
+
+          </NavItem>
+
+          <NavItem>
+
+            <NavLink  to="/user" className="nav-link" activeClassName="active">View your own employee profile</NavLink>
+
+          </NavItem>   
+
+          <NavItem>
+        
+            <NavLink  to="/reimbursements" className="nav-link" activeClassName="active">View your own reimbursements</NavLink>
+
+          </NavItem>
+
+        </Nav>
+
+    </>
+  );
+
+}
+
 }

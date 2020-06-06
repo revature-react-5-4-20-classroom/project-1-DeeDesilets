@@ -26,12 +26,12 @@ export async function getReimbursementsByAUID (id : number) : Promise <Reimburse
   });
 }
 
-export async function submitReimbursements (reimbursementId = 0, author: number, amount: number, datesubmitted: number, description: string, type: number ) : Promise <Reimbursement> {
+export async function submitReimbursements (author: number, amount: number, datesubmitted: number, description: string, type: number ) : Promise <Reimbursement> {
 
     try {
-      let response : Reimbursement = await employee.post('/reimbursements', {"reimbursementid" : 0, "author" : "author" , "amount" : "amount", "datesubmitted" : "datesubmitted", "description" : "description", "type" : "type"});
-      let {reimbursementId, author, amount, dateSubmitted, dateResolved, description, resolver, status, type} = response;
-      return new Reimbursement (reimbursementId, author, amount, dateSubmitted, dateResolved, description, resolver, status, type);
+      let response: any = await employee.post('/reimbursements', {"amount" : "amount", "datesubmitted" : "datesubmitted", "description" : "description", "type" : "type"});
+      
+      return new Reimbursement (response.data.reimbursementId, response.data.author, response.data.amount, response.data.dateSubmitted, response.data.dateResolved, response.data.description, response.data.resolver, response.data.status, response.data.type);
     } catch (e) {
       
         throw new FailedUpdate('Failed to update reimbursement.' );
@@ -43,9 +43,9 @@ export async function submitReimbursements (reimbursementId = 0, author: number,
   export async function updateReimbursements (reimbursementId = 0, author: number, amount: number, datesubmitted: number, description: string, type: number ) : Promise <Reimbursement> {
 
     try {
-      let response : Reimbursement = await employee.patch('/reimbursements', {"reimbursementid": 0, "author":"author", "amount" : "amount", "datesubmitted" : "datesubmitted", "description" : "description", "type" : "type"});
-      let {reimbursementId, author, amount, dateSubmitted, dateResolved, description, resolver, status, type} = response;
-      return new Reimbursement (reimbursementId, author, amount, dateSubmitted, dateResolved, description, resolver, status, type);
+      let response : any = await employee.patch('/reimbursements', {"dateresolved" : "dateresolved", "resolver":"resolver", "status":"status"});
+      
+        return new Reimbursement (response.data.reimbursementId, response.data.author, response.data.amount, response.data.datesubmitted, response.data.dateresolved, response.data.description, response.data.resolver, response.data.status, response.data.type);
     } catch (e) {
       
         throw new FailedUpdate('Failed to update reimbursement.' );

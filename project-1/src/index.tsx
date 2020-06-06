@@ -4,8 +4,6 @@ import ReactDOM from 'react-dom';
 
 import './index.css';
 
-import './custom-themes/bootstrap.min.css'
-
 import '../node_modules/react-toastify/dist/ReactToastify.css';
 
 import App from './App';

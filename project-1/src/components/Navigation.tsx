@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Nav, NavItem, Button } from 'reactstrap';
+import { Nav, NavItem, Button, Navbar } from 'reactstrap';
 
 import { NavLink } from 'react-router-dom';
 
@@ -23,6 +23,7 @@ export default class Navigation extends React.Component<NavigationProps> {
     render() {
 
         return (
+    
 
             <Nav tabs>
 
@@ -34,9 +35,18 @@ export default class Navigation extends React.Component<NavigationProps> {
 
                 <NavItem>
 
-                    <NavLink to="/books" className="nav-link" activeClassName="active">Available Books</NavLink>
+                    <NavLink hidden={!(this.props.loggedInUser )} to="/employee" className="nav-link" activeClassName="active">Employees Menu</NavLink>
 
                 </NavItem>
+
+                
+
+                <NavItem>
+
+                    <NavLink hidden={!(this.props.loggedInUser && (this.props.loggedInUser.role === 'admin' || this.props.loggedInUser.role === 'finance manager'))} to="/managers" className="nav-link" activeClassName="active">Managers Menu</NavLink>
+
+                </NavItem>
+
 
                 <NavItem>
 
@@ -44,17 +54,13 @@ export default class Navigation extends React.Component<NavigationProps> {
 
                 </NavItem>
 
-                <NavItem>
-
-                    <NavLink hidden={!(this.props.loggedInUser && this.props.loggedInUser.role === 'Admin')} to="/users" className="nav-link" activeClassName="active">All Users</NavLink>
-
-                </NavItem>
-
+                
                 <NavItem tag={()=>{return <Button  hidden={!this.props.loggedInUser} onClick={this.props.logoutUser} color="secondary" outline>Logout</Button>}} />
 
                     
 
             </Nav>
+      
 
         );
 

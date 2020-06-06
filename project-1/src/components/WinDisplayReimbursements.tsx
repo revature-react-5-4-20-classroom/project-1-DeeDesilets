@@ -1,93 +1,160 @@
-import React from 'react';
-import { getReimbursementsByAUID } from '../api/Employee';
-import {Table, Form} from 'reactstrap';
-import Reimbursement from '../models/Reimbursement';
+import React from "react";
+
+import { Container, Row, Col, Spinner } from "reactstrap";
+
+import  TableModel  from "./TableModel";
+
+import { getReimbursementsByAUID } from "../api/Employee";
+
+import { toast } from "react-toastify";
+
+import  Reimbursement from "../models/Reimbursement";
+
+import User from "../models/User";
+
 
 interface IWinDisplayReimbursementsProps {
-  history: any
-  role: string;
-  userId: number;
+  loggedInUser: User;
 }
 
-export default class WinDisplayReimbursements extends React.Component <IWinDisplayReimbursementsProps> {
- 
-  nextPath() {
-    if (this.props.role === 'manager' || this.props.role === 'admin') {
-        return "this.props.history.push('/manager')";
-  } else if (this.props.role === 'employee') {
-        return "this.props.history.push('/employee')";
-  }  else {
-    return "this.props.history.push('/login')";
+
+
+interface IReimbursementsPageState {
+
+  reimbursements: Reimbursement[];
+
+  reimbursementsLoaded: boolean;
+
+}
+
+
+
+export default class ReimbursementsPage extends React.Component<any, IReimbursementsPageState> {
+
+  constructor(props: any) {
+
+    super(props);
+
+    this.state = {
+
+      reimbursements: [],
+
+     reimbursementsLoaded: false,
+
+    };
+
   }
+
+
+
+  async componentDidMount() {
+
+    await this.fetchReimbursements();
+
   }
 
 
 
-usersReimbursements : Reimbursement[] = [];
-  handleSubmit = async (event: any) => {
-    
-    event.preventDefault();
+  
 
-    console.log(event);
+
+
+  fetchReimbursements = async () => {
 
     try {
-      console.log("1st line in try/display user info");
-      this.usersReimbursements = await getReimbursementsByAUID(this.props.userId);
-      console.log (this.usersReimbursements);
-      
-      
-    
-    } catch (error) {
 
-      
-      
-    }
-    
+      this.setState({
+
+        reimbursements: await getReimbursementsByAUID(this.props.loggedInUser.userId),
+
+        reimbursementsLoaded: true,
+
+      });
+
+      } catch (e) {
+
+          toast(e.message, {type:"error"});
+
+      }
+
   }
-    render () {
-      return (
-        <>
-          <Form onSubmit={this.handleSubmit} >
-          <input type="number" />
-          </Form>
-          <br/> <br/>
-          <h3>Table of Users</h3> {/*one row*/}
+
+
+
+  render() {
+
+    return (
+
+      <Container>
+
+        <Row>
+
+          <Col md={{ size: 8 }}>
+
+            <h4>All Your Reimbursements</h4>
+
+            {this.state.reimbursementsLoaded ? (
+
+              <TableModel objects={this.state.reimbursements} />
+
+            ) : (
+
+              <Spinner />
+
+            )}
+
+          </Col>
+
           
 
-          <Table responsive>
-            <thead>
-              <tr>
-                {Object.keys(this.usersReimbursements[0]).map((key: any) => {
+        </Row>
 
-                  return <th key={key}>{key}</th>;
+      </Container>
 
-                })}
-              </tr>
-            </thead>
-            <tbody>
-                {this.usersReimbursements.map((obj: any, index: number) => {
+    );
 
-                    return <tr key={index}>
+  }
 
-                            {Object.values(obj).map((value: any, index: number) => {
+}
 
-                        return <td key={index}>{value}</td>;})}
 
-                    </tr>})}
-  
-            </tbody>
-            <br/> <br/>
-            <button onClick={this.props.history.push('/logout')}>
-                Log Out
-            </button>
-            <br/> <br/>
-            <button onClick={this.nextPath}>
-                Menu Page
-            </button>
-          </Table>
-        </>
-      
-      )}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

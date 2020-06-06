@@ -1,30 +1,22 @@
 import React from "react";
 
 import {
-
   BrowserRouter as Router,
-
   Route,
-
   Switch,
-
   Redirect,
-
 } from "react-router-dom";
-
 import { ToastContainer, toast } from "react-toastify";
-
 import  WinLogIn from "./components/WinLogIn";
-
 import  User  from "./models/User";
-
 import  Navigation  from "./components/Navigation";
-
 import  UserPage  from "./components/UserPage"
-
-import  ReimbursementsPage  from "./components/ReimbursementsPage";
-
 import { Jumbotron } from "reactstrap";
+import WinManagerPage from "./components/WinManagerPage";
+import WinEmployeePage from "./components/WinEmployeePage";
+import WinNewReimbursement from "./components/WinNewReimbursement";
+import WinDisplayUserInfo from "./components/WinDisplayUserInfo";
+import WinDisplayReimbursements from "./components/WinDisplayReimbursements"
 
 
 
@@ -33,8 +25,6 @@ export default class App extends React.Component<any, any> {
   constructor(props: any) {
 
     super(props);
-
-
 
     this.state = {
 
@@ -68,8 +58,6 @@ export default class App extends React.Component<any, any> {
 
   };
 
-
-
   render() {
 
     return (
@@ -88,47 +76,18 @@ export default class App extends React.Component<any, any> {
 
           <Jumbotron>
 
-            <h1 className="display-4"><span role="img" aria-label="Library App banner with book emoji">📚Library App📚</span></h1>
+            <h1 className="display-4"><span role="img" aria-label="ABC Corp Banner">ABC Corporation</span></h1>
+            <h6>Where it pays to go to work</h6>
 
           </Jumbotron>
 
           <Switch>
 
-            {/* This Route redirects people hitting the root url to either home or login, just a QoL thing */}
-
             <Route exact path="/">
 
-              {this.state.loggedInUser ? (
-
-                <Redirect to="/home" />
-
-              ) : (
-
-                <Redirect to="/login" />
-
-              )}
+              <Redirect to="/home" />
 
             </Route>
-
-            {/* This is a Route to a login form */}
-
-            <Route
-
-              path="/login"
-
-              render={(props: any) => {
-
-                return (
-
-                  <WinLogIn {...props} updateUser={this.updateLoggedInUser} />
-
-                );
-
-              }}
-
-            />
-
-            {/* This route is just a placeholder for a homepage */}
 
             <Route path="/home">
 
@@ -138,7 +97,7 @@ export default class App extends React.Component<any, any> {
 
                 {this.state.loggedInUser
 
-                  ? `home, ${this.state.loggedInUser.username}!`
+                  ? `home, ${this.state.loggedInUser.firstname}!`
 
                   : "guest!"}
 
@@ -146,27 +105,80 @@ export default class App extends React.Component<any, any> {
 
             </Route>
 
-            {/* This is a Route to a public books page.  It displays differently based on the logged in user. */}
+            <Route path="/employee"
 
-            <Route path="/books">
+              render={(props: any) => {return ( 
 
-              <ReimbursementsPage loggedInUser={this.state.loggedInUser} />
+                <WinEmployeePage  {...props} loggedInUser={this.state.loggedInUser} />
+        
+                );
+              }}
+            />
+
+            <Route path="/submit"
+
+              render= {(props:any) => {return (
+
+                <WinNewReimbursement {...props} loggedInUser={this.state.loggedInUser} />
+          
+                );
+              }}
+            />     
+
+            <Route path="/user"
+
+              render= {(props:any) => {return (
+              
+                <WinDisplayUserInfo {...props} loggedInUser={this.state.loggedInUser} />
+  
+                );
+              }}
+            />   
+            <Route path="/reimbursements"
+
+              render= {(props:any) => {return (
+
+                <WinDisplayReimbursements {...props} loggedInUser={this.state.loggedInUser} />
+  
+                );
+              }}
+            />   
+            <Route path="/managers"
+
+              render={(props: any) => {return (
+
+                <WinManagerPage  {...props} loggedInUser={this.state.loggedInUser} logoutUser={this.logoutUser}/>
+
+                );
+              }}
+            />
+            <Route path="allreimbursements">
+
+              {(this.state.loggedInUser && (this.state.loggedInUser.role === 'admin' || this.state.loggedInUser.role === 'finance manager')) ? <UserPage /> : <h4>Only managers can see all users</h4>}
+
+            </Route>        
+
+            <Route path="allusers">
+
+              {(this.state.loggedInUser && (this.state.loggedInUser.role === 'admin' || this.state.loggedInUser.role === 'finance manager')) ? <UserPage /> : <h4>Only managers can see all users</h4>}
 
             </Route>
 
-            {/* This is a Route to a private users page, only accessible by Admins */}
+            <Route path="/login"
 
-            <Route path="/users">
+              render={(props: any) => {
 
-              {(this.state.loggedInUser && this.state.loggedInUser.role === 'Admin') ? <UserPage /> : <h4>Only admins can see all users</h4>}
+                return (
 
-            </Route>
+                  <WinLogIn {...props} updateLoggedInUser={this.updateLoggedInUser} loggedInUser={this.state.loggedInUser} />
 
-            {/* This is a catchall route that redirects the user if they enter a route we dont have */}
+                );
 
-            <Route
+              }}
 
-              path="*"
+            />  
+
+            <Route path="*"
 
               render={(props: any) => {
 
@@ -175,21 +187,31 @@ export default class App extends React.Component<any, any> {
                 return <Redirect to="/" />;
 
               }}
-
-            ></Route>
-
-          </Switch>
-
-        </Router>
+            /> 
+            
 
 
+        </Switch>
 
-        <ToastContainer />
+      </Router>
 
-      </div>
 
-    );
 
-  }
+    <ToastContainer />
+
+      
+  </div>
+
+  );
 
 }
+
+}
+
+
+
+
+
+
+
+
