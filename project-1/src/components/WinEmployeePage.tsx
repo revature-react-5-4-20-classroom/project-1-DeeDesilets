@@ -17,7 +17,7 @@ export default class WinEmployeePage extends React.Component <IWinEmployeePagePr
         <Nav tabs>
           <NavItem>
 
-            <NavLink  to="/submit" className="nav-link" activeClassName="active">Submit a Reimbursement</NavLink>
+            <NavLink  to="/submit" className="nav-link" activeClassName="active">Submit a reimbursement</NavLink>
 
           </NavItem>
 

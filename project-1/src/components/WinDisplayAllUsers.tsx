@@ -1,78 +1,116 @@
-import React from 'react';
-import User from '../models/User';
-import { Form, Table } from 'reactstrap';
-import { getAllUsers } from '../api/Employee';
+import React from "react";
+
+import { Container, Row, Col, Spinner, Button } from "reactstrap";
+
+import { getAllUsers } from "../api/Employee";
+
+import { toast } from "react-toastify";
+
+import  User  from "../models/User";
+
+import ObjectTable from "./TableModel";
 
 
-interface IDisplayAllUsersProps {
-  history: any;
+
+
+
+interface IWinDisplayAllUsersState {
+
+  users: User[];
+
+  usersLoaded: boolean;
+
 }
 
-export default class WinDisplayAllUsers extends React.Component <IDisplayAllUsersProps> {
 
 
-  allUsers : User[] = [];
-  handleSubmit = async (event: any) => {
-    
-    event.preventDefault();
+export default class WinDisplayAllUsers extends React.Component<any, IWinDisplayAllUsersState> {
 
-    console.log(event);
+  constructor(props: any) {
+
+    super(props);
+
+    this.state = {
+
+      users: [],
+
+      usersLoaded: false,
+
+    };
+
+  }
+
+
+
+  async componentDidMount() {
+
+    await this.fetchUsers();
+
+  }
+
+
+
+  
+
+
+
+  fetchUsers = async () => {
 
     try {
-      console.log("1st line in try/display user info");
-      this.allUsers = await getAllUsers();
-      console.log (this.allUsers);
-      
-      
-    
-    } catch (error) {
 
-      
-      
-    }
-    
+      this.setState({
+
+        users: await getAllUsers(),
+
+        usersLoaded: true,
+
+      });
+
+      } catch (e) {
+
+          toast(e.message, {type:"error"});
+
+      }
+
   }
-    render () {
-      return (
-        <>
-          <Form onSubmit={this.handleSubmit} >
-          <input type="number" />
-          </Form>
-          <br/> <br/>
-          <h3>Table of All Users</h3> 
+
+
+
+  render() {
+
+    return (
+
+      <Container>
+
+        <Button> Add New Employee </Button>
+        <Button> Delete An Employee </Button>
+
+        <Row>
+
+          <Col md={{ size: 8 }}>
+
+            <h4>All Employees</h4>
+
+            {this.state.usersLoaded ? (
+
+              <ObjectTable objects={this.state.users} />
+
+            ) : (
+
+              <Spinner />
+
+            )}
+
+          </Col>
+
           
 
-          <Table responsive>
-            <thead>
-              <tr>
-                {Object.keys(this.allUsers[0]).map((key: any) => {
+        </Row>
 
-                  return <th key={key}>{key}</th>;
+      </Container>
 
-                })}
-              </tr>
-            </thead>
-            <tbody>
-                {this.allUsers.map((obj: any, index: number) => {
+    );
 
-                    return <tr key={index}>
+  }
 
-                            {Object.values(obj).map((value: any, index: number) => {
-
-                        return <td key={index}>{value}</td>;})}
-
-                    </tr>})}
-  
-            </tbody>
-            <br/> <br/>
-            <button onClick={this.props.history.push('/logout')}>
-                Log Out
-            </button>
-            <br/> <br/>
-            <button onClick={this.props.history.push('/manager')}>
-                Menu Page
-            </button>
-          </Table>
-        </>
-      
-      )}}
+}

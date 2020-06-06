@@ -7,7 +7,7 @@ import FailedUpdate from '../errors/FailedUpdate';
 
 const employee = axios.create({
 
-    baseURL: 'http://localhost:6464',
+    baseURL: 'localhost:6464',
   
     withCredentials: true,
   
@@ -15,7 +15,7 @@ const employee = axios.create({
 
 export async function getReimbursementsByAUID (id : number) : Promise <Reimbursement[]> {
 
-  let response = await employee.get('/reimbursements/author/:userId');
+  let response = await employee.get('/reimbursements/author/:userid');
 
   return response.data.map((r : Reimbursement) => {
 
@@ -25,6 +25,20 @@ export async function getReimbursementsByAUID (id : number) : Promise <Reimburse
   
   });
 }
+
+export async function getReimbursementsBySID (id : number) : Promise <Reimbursement[]> {
+
+  let response = await employee.get('/reimbursements/status/:statusid');
+
+  return response.data.map((r : Reimbursement) => {
+
+    let {reimbursementId, author, amount, dateSubmitted, dateResolved, description, resolver, status, type} = r;
+
+    return new Reimbursement (reimbursementId, author, amount, dateSubmitted, dateResolved, description, resolver, status, type);
+  
+  });
+}
+
 
 export async function submitReimbursements (author: number, amount: number, datesubmitted: number, description: string, type: number ) : Promise <Reimbursement> {
 
@@ -78,9 +92,9 @@ export async function getUserById(id: number) : Promise<User []> {
   
       });
   
-      const { id, username, password, firstname, lastname, email, role } = response.data;
+      const { userId, username, password, firstName, lastName, email, role } = response.data;
   
-      return new User(id, username, password, firstname, lastname,email, role);
+      return new User(userId, username, password, firstName, lastName,email, role);
   
     } catch (e) {
   
@@ -100,11 +114,11 @@ export async function getUserById(id: number) : Promise<User []> {
 export async function getAllReimbursements () : Promise <Reimbursement[]> {
 
   let response = await employee.get('/reimbursements');
-
-  return response.data.map((r : Reimbursement) => {
+console.log(response);
+  return response.data.map((r : any) => {
 
     let {reimbursementId, author, amount, dateSubmitted, dateResolved, description, resolver, status, type} = r;
-
+console.log(r);
     return new Reimbursement (reimbursementId, author, amount, dateSubmitted, dateResolved, description, resolver, status, type);
   
   });

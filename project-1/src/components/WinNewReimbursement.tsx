@@ -1,7 +1,5 @@
 import React from 'react';
 
-import Reimbursement from '../models/Reimbursement'
-
 import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
 
 import { submitReimbursements } from '../api/Employee';
@@ -112,28 +110,7 @@ export default class IWinNewReimbursement extends React.Component<IWinNewReimbur
 
             <Form onSubmit={this.submitReimbursement}>
 
-              <FormGroup>
-
-              <Label for="author">Author</Label>
-
-                <Input
-
-                  onChange={this.bindInputChangeToState}
-
-                  value={this.state.author}
-
-                  type="number"
-
-                  name="author"
-
-                  id="author"
-
-                  required
-
-                />
-
-              </FormGroup>
-
+              
               <FormGroup>
 
               <Label for="amount">Amount</Label>
@@ -144,7 +121,7 @@ export default class IWinNewReimbursement extends React.Component<IWinNewReimbur
 
                   value={this.state.amount}
 
-                  type="number"
+                  type="text"
 
                   name="amount"
 
@@ -166,7 +143,7 @@ export default class IWinNewReimbursement extends React.Component<IWinNewReimbur
 
                   value={this.state.dateSubmitted}
 
-                  type="number"
+                  type="text"
 
                   name="dateSubmitted"
 
@@ -200,7 +177,29 @@ export default class IWinNewReimbursement extends React.Component<IWinNewReimbur
 
               </FormGroup>
 
+              <FormGroup>
+
+              <Label for="type">Type of Expense</Label>
+
+                <Input
+
+                  onChange={this.bindInputChangeToState}
+
+                  value={this.state.type}
+
+                  type="text"
+
+                  name="type"
+
+                  id="type"
+
+                />
+
+              </FormGroup>
+
               <Button>Submit Reimbursement</Button>
+
+              <label>Upload a file image of receipt here</label>
 
               <input  type="file" name="receipt"  id="receipt" ></input>
 
@@ -212,16 +211,4 @@ export default class IWinNewReimbursement extends React.Component<IWinNewReimbur
 
 }
 
-{/*<Col md={{size: 4}}>
-
-{this.props.loggedInUser ? <WinNewReimbursement addReimbursement={this.addNewReimbursement} /> : <h4>Must login to submit a reimbursement</h4>}
-
-</Col>
-}
-
-addNewReimbursement = async () => {
-
-  await this.fetchReimbursements();
-
-}*/}
 

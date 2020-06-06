@@ -10,13 +10,16 @@ import { ToastContainer, toast } from "react-toastify";
 import  WinLogIn from "./components/WinLogIn";
 import  User  from "./models/User";
 import  Navigation  from "./components/Navigation";
-import  UserPage  from "./components/UserPage"
 import { Jumbotron } from "reactstrap";
 import WinManagerPage from "./components/WinManagerPage";
 import WinEmployeePage from "./components/WinEmployeePage";
 import WinNewReimbursement from "./components/WinNewReimbursement";
 import WinDisplayUserInfo from "./components/WinDisplayUserInfo";
 import WinDisplayReimbursements from "./components/WinDisplayReimbursements"
+import WinUpdateUser  from "./components/WinUpdateUser";
+import WinDisplayAllUsers from "./components/WinDisplayAllUsers";
+import WinDisplayAllReimbursements from "./components/WinDisplayAllReimbursements";
+
 
 
 
@@ -46,7 +49,7 @@ export default class App extends React.Component<any, any> {
 
   };
 
-
+  
 
   logoutUser = () => {
 
@@ -55,11 +58,12 @@ export default class App extends React.Component<any, any> {
       loggedInUser: null,
 
     });
-
+    
   };
 
-  render() {
 
+  render() {
+ 
     return (
 
       <div className="App">
@@ -93,14 +97,9 @@ export default class App extends React.Component<any, any> {
 
               <h2>
 
-                Welcome{" "}
+                Welcome!
 
-                {this.state.loggedInUser
-
-                  ? `home, ${this.state.loggedInUser.firstname}!`
-
-                  : "guest!"}
-
+                
               </h2>
 
             </Route>
@@ -134,6 +133,17 @@ export default class App extends React.Component<any, any> {
                 );
               }}
             />   
+
+            <Route path="/updateuser"
+
+              render= {(props:any) => {return (
+              
+                <WinUpdateUser {...props} loggedInUser={this.state.loggedInUser} />
+  
+                );
+              }}
+            />   
+
             <Route path="/reimbursements"
 
               render= {(props:any) => {return (
@@ -152,17 +162,22 @@ export default class App extends React.Component<any, any> {
                 );
               }}
             />
-            <Route path="allreimbursements">
+            <Route path="/allreimbursements"
 
-              {(this.state.loggedInUser && (this.state.loggedInUser.role === 'admin' || this.state.loggedInUser.role === 'finance manager')) ? <UserPage /> : <h4>Only managers can see all users</h4>}
+              render={(props: any) => {return (
+              
+                <WinDisplayAllReimbursements {...props}/>
+              );
+            }}
+            />        
 
-            </Route>        
+            <Route path="/allusers"
 
-            <Route path="allusers">
-
-              {(this.state.loggedInUser && (this.state.loggedInUser.role === 'admin' || this.state.loggedInUser.role === 'finance manager')) ? <UserPage /> : <h4>Only managers can see all users</h4>}
-
-            </Route>
+              render={(props: any) => {return (
+                <WinDisplayAllUsers {...props}/> 
+              );
+              }}
+            />
 
             <Route path="/login"
 

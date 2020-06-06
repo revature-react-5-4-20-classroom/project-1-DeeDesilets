@@ -4,7 +4,7 @@ import { Table } from "reactstrap";
 
 
 
-interface ITableModelProps {
+interface IObjectTableProps {
 
     objects: object[];
 
@@ -14,7 +14,7 @@ interface ITableModelProps {
 
 /** Quick reactstrap table that builds a table out of props.objects.  All objects should have the same fields in order.*/
 
-export default class TableModel extends React.Component<ITableModelProps> {
+export default class ObjectTable extends React.Component<IObjectTableProps> {
 
 
 
@@ -71,3 +71,5 @@ export default class TableModel extends React.Component<ITableModelProps> {
   }
 
 }
+
+

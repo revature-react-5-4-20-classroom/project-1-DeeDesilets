@@ -1,40 +1,35 @@
 import React from 'react';
-import { getUserById } from '../api/Employee';
 import User from '../models/User';
+import { Button, NavItem, } from 'reactstrap';
+import { NavLink } from 'react-router-dom';
 
-
-interface IWinDisplayUserInformationProps {
+interface IWinDisplayUserInfoProps {
   history: any;
   loggedInUser: User;
 }
 
-export default class WinDisplayUserInfo extends React.Component <IWinDisplayUserInformationProps, any> {
- 
-  let displayingUser: User = null;
-  handleSubmit = async (event: any) => {
-    
-    event.preventDefault();
 
-    
-    
-    try {
-      
-     this. displayingUser = await getUserById(this.props.loggedInUser.userId);
-     
-    } catch (error) {
-    
-      
-    }
-  }
 
+export default class WinDisplayUserInfo extends React.Component <IWinDisplayUserInfoProps, any> {
 
     render () {
       return (
         <>
-          
-          <br/> <br/>
-        <h3>{this.displayingUser.firstName} {this.displayingUser.lastName}</h3> 
-          
+           
+              <h3>First Name: {this.props.loggedInUser.firstName}</h3> 
+              <h3>Last Name: { this.props.loggedInUser.lastName}</h3> 
+              <h3>Username: { this.props.loggedInUser.username}</h3>
+              <h3>Password:  { this.props.loggedInUser.password}</h3>
+              <h3>Email Address:  { this.props.loggedInUser.email}</h3>
+              <h3>finance manager, admin, or employee?  {this.props.loggedInUser.role}</h3>
+              <h3>Employee ID number: {this.props.loggedInUser.userId}</h3>
+            
+            <NavItem>
+
+            <NavLink  to='/updateuser'><Button color="secondary" outline>Update Employee Profile</Button> </NavLink>
+
+          </NavItem>
+
 
           
         </>

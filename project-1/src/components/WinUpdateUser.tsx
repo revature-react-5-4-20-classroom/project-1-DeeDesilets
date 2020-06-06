@@ -6,24 +6,22 @@ interface IWinUpdateUserProps {
 
 export default class WnUpdateUser extends React.Component  <IWinUpdateUserProps> {
 
-    nextPath(path: any) {
-        this.props.history.push(path);
-      }
+    
 
     render()  {
         return (
             <div>
-                <button onClick={() => this.nextPath('/logout')}>
+                <button onClick={this.props.history.push('/logout')}>
                               Log Out
                            </button>
                                      
                     
          
                    
-                   <button onClick={() => this.nextPath('/manager')}>
-                             Menu Page
+                   <button onClick={this.props.history.push('/home')}>
+                             Home
                            </button>
-                <form name='newuser'>
+                <form name='newuser' >
                     <label>Username:</label>
                     <input id="uname" type="text"></input>
                     <br/><br/>

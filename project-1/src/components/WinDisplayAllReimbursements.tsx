@@ -1,81 +1,180 @@
-import React from 'react';
-import { Form, Table } from 'reactstrap';
-import { getAllReimbursements } from '../api/Employee';
-import Reimbursement from '../models/Reimbursement';
+import React from "react";
+
+import { Container, Row, Col, Spinner, Button, Input, Label } from "reactstrap";
+
+import { getAllReimbursements, getReimbursementsBySID } from "../api/Employee";
+
+import { toast } from "react-toastify";
+
+import  Reimbursement  from "../models/Reimbursement";
+
+import ObjectTable from "./TableModel";
 
 
-interface IDisplayAllReimbursementsProps {
-  history: any;
+
+
+
+interface IWinDisplayAllReimbursementsState {
+
+  reimbursements: Reimbursement[];
+
+  reimbursementsLoaded: boolean;
+
 }
 
-export default class WinDisplayAllReimbursements extends React.Component <IDisplayAllReimbursementsProps> {
 
 
-  allReimbursements : Reimbursement[] = [];
-  handleSubmit = async (event: any) => {
-    
-    event.preventDefault();
+export default class WinDisplayAllReimbursements extends React.Component<any, IWinDisplayAllReimbursementsState> {
 
-    console.log(event);
+  constructor(props: any) {
+
+    super(props);
+
+    this.state = {
+
+      reimbursements: [],
+
+      reimbursementsLoaded: false,
+
+    };
+
+  }
+
+
+
+  async componentDidMount() {
+
+    await this.fetchReimbursements();
+
+  }
+
+componentWillUnmount() {
+
+}
+
+  
+
+
+
+  fetchReimbursements = async () => {
 
     try {
-      console.log("1st line in try/display user info");
-      this.allReimbursements = await getAllReimbursements();
-      console.log (this.allReimbursements);
-      
-      
-    
-    } catch (error) {
 
-      
-      
-    }
-    
+      this.setState({
+
+        reimbursements: await getAllReimbursements(),
+
+        reimbursementsLoaded: true,
+
+      });
+
+      } catch (e) {
+
+          toast(e.message, {type:"error"});
+
+      }
+
   }
-    render () {
-      return (
-        <>
-          <Form onSubmit={this.handleSubmit} >
-          <input type="number" />
-          </Form>
-          <br/> <br/>
-          <h3>Table of All Reimbursements</h3> 
+
+  fetchPendingReimbursements = async () => {
+
+    try {
+
+      this.setState({
+
+        reimbursements: await getReimbursementsBySID(3),
+
+        reimbursementsLoaded: true,
+
+      });
+
+      } catch (e) {
+
+          toast(e.message, {type:"error"});
+
+      }
+
+  }
+
+  fetchApprovedReimbursements = async () => {
+
+    try {
+
+      this.setState({
+
+        reimbursements: await getReimbursementsBySID(1),
+
+        reimbursementsLoaded: true,
+
+      });
+
+      } catch (e) {
+
+          toast(e.message, {type:"error"});
+
+      }
+
+  }
+
+  fetchDeniedReimbursements = async () => {
+
+    try {
+
+      this.setState({
+
+        reimbursements: await getReimbursementsBySID(2),
+
+        reimbursementsLoaded: true,
+
+      });
+
+      } catch (e) {
+
+          toast(e.message, {type:"error"});
+
+      }
+
+  }
+
+  render() {
+
+    return (
+
+      <Container>
+
+        <Button onClick={this.fetchReimbursements}>All reimbursements</Button>
+        <Button onClick={this.fetchPendingReimbursements}> Pending reimbursements</Button>
+        <Button onClick={this.fetchApprovedReimbursements}>Approved reimbursements</Button>
+        <Button onClick={this.fetchDeniedReimbursements}>Denied reimbursements</Button>
+        <Label>Enter Employee ID here:</Label><Input type="text"></Input>
+        <Button>Update Reimbursement</Button>
+
+        <Row>
+
+          <Col md={{ size: 8 }}>
+
+            <h4>All Reimbursements for All Employees</h4>
+
+            {this.state.reimbursementsLoaded ? (
+
+              <ObjectTable objects={this.state.reimbursements} />
+
+            ) : (
+
+              <Spinner />
+
+            )}
+
+          </Col>
+
           
 
-          <Table responsive>
-            <thead>
-              <tr>
-                {Object.keys(this.allReimbursements[0]).map((key: any) => {
+        </Row>
 
-                  return <th key={key}>{key}</th>;
+      </Container>
 
-                })}
-              </tr>
-            </thead>
-            <tbody>
-                {this.allReimbursements.map((obj: any, index: number) => {
+    );
 
-                    return <tr key={index}>
+  }
 
-                            {Object.values(obj).map((value: any, index: number) => {
-
-                        return <td key={index}>{value}</td>;})}
-
-                    </tr>})}
-            </tbody>
-            <br/> <br/>        
-           <button onClick={() => this.props.history.push('/logout')}>
-                              Log Out
-                           </button>
-                                     
-                    
-         
-                   
-                   <button onClick={this.props.history.push('/manager')}>
-                             Menu Page
-                           </button>
-          </Table>  
-        </>
-      );
-    }
 }
