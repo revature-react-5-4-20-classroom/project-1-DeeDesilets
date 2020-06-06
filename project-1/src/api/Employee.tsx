@@ -81,9 +81,10 @@ export async function getUserById(id: number) : Promise<User []> {
 
 
   export async function checkingCredentials(un: string, pw: string): Promise<User> {
-
+console.log("hello from inside checkingCredentials");
+console.log(un + "and" + pw);
     try {
-  
+console.log("testing checkingCredentials try begin");
       const response = await employee.post("/login", {
   
         username: un,
@@ -93,8 +94,9 @@ export async function getUserById(id: number) : Promise<User []> {
       });
   
       const { userId, username, password, firstName, lastName, email, role } = response.data;
+      console.log(response.data);
   
-      return new User(userId, username, password, firstName, lastName,email, role);
+      return new User(userId, username, password, firstName, lastName, email, role);
   
     } catch (e) {
   

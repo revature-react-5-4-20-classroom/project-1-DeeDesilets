@@ -26,32 +26,15 @@ import { checkingCredentials } from "../api/Employee";
 
 import { toast } from "react-toastify";
 
-interface IWinLogInProps {
-  history: any;
-  updateLoggedInUser: (u: User) => void;
-  loggedInUser: User;
-
-}
-
-interface IWinLogInState {
-  
-  username: string;
-
-  password: string;
-
-}
 
 
+export default class WinLogIn extends React.Component<any, any> {
 
-export default class WinLogIn extends React.Component<IWinLogInProps, IWinLogInState> {
-
-  constructor(props: IWinLogInProps) {
+  constructor(props: any) {
 
     super(props);
 
     this.state = {
-
-      
 
       username: "",
 
@@ -90,10 +73,11 @@ export default class WinLogIn extends React.Component<IWinLogInProps, IWinLogInS
   attemptLogin = async (submitEvent: any) => {
 
     submitEvent.preventDefault();
+    
 
     try {
 
-      const loggingInUser: User = await checkingCredentials(
+      const loggedInUser: User = await checkingCredentials (
 
         this.state.username,
 
@@ -101,7 +85,7 @@ export default class WinLogIn extends React.Component<IWinLogInProps, IWinLogInS
 
       );
 
-      this.props.updateLoggedInUser(loggingInUser);
+      this.props.updateUser(loggedInUser);
 
       this.props.history.push("/home");
 
@@ -155,8 +139,6 @@ export default class WinLogIn extends React.Component<IWinLogInProps, IWinLogInS
 
               </FormGroup>
 
-              <br/>  <br/>
-
               <FormGroup>
 
                 <Label for="password">Password</Label>
@@ -178,8 +160,6 @@ export default class WinLogIn extends React.Component<IWinLogInProps, IWinLogInS
                 />
 
               </FormGroup>
-
-              <br/>  <br/>
 
               <Button>Login</Button>
 

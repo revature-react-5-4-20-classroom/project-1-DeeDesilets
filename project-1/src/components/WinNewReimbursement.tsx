@@ -94,13 +94,16 @@ export default class IWinNewReimbursement extends React.Component<IWinNewReimbur
 
 
 
-    bindInputChangeToState = (changeEvent:any) => {
-
-        
-
-        this.setState({author : changeEvent.currentTarget.value, amount : changeEvent.currentTarget.value, dateSubmitted : changeEvent.currentTarget.value, description : changeEvent.currentTarget.value, type : changeEvent.currentTarget.value })
-
-    }
+    bindInputChangeToState = (event:any) => {
+      //@ts-ignore
+      this.setState({
+           
+           [event.currentTarget.amount]: event.currentTarget.value,
+           [event.currentTarget.dateSubmitted]: event.currentTarget.value,
+           [event.currentTarget.description]: event.currentTarget.value,
+           [event.currentTarget.type]: event.currentTarget.value,
+      });
+  }
 
 
 
