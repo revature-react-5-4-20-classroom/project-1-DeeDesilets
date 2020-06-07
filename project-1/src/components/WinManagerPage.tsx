@@ -34,29 +34,33 @@ export default class WinManagerPage extends React.Component <IWinManagerPageProp
 
                 <NavItem>
 
-                    <NavLink hidden={!(this.props.loggedInUser )} to="/user" className="nav-link" activeClassName="active">View your own employee profile</NavLink>
+                    <NavLink  to="/user" className="nav-link" activeClassName="active">View your own employee profile</NavLink>
 
                 </NavItem>   
 
                 <NavItem>
 
-                    <NavLink hidden={!this.props.loggedInUser} to="/reimbursements" className="nav-link" activeClassName="active">View your own reimbursements</NavLink>
+                    <NavLink to="/reimbursements" className="nav-link" activeClassName="active">View your own reimbursements</NavLink>
 
                 </NavItem>
 
                 <NavItem>       
 
-                    <NavLink hidden={!(this.props.loggedInUser && (this.props.loggedInUser.role === 'admin' || this.props.loggedInUser.role === 'finance manager'))} to="/allusers" className="nav-link" activeClassName="active">View all employee profiles</NavLink>
+                    <NavLink  to="/allusers" className="nav-link" activeClassName="active">View all employee profiles</NavLink>
 
                 </NavItem>
 
                 <NavItem>
 
-                    <NavLink hidden={!(this.props.loggedInUser && (this.props.loggedInUser.role === 'admin' || this.props.loggedInUser.role === 'finance manager'))} to="/allreimbursements" className="nav-link" activeClassName="active">View all employees reimbursements</NavLink>
+                    <NavLink to="/allreimbursements" className="nav-link" activeClassName="active">View all employees reimbursements</NavLink>
 
                 </NavItem>
 
-               
+                <NavItem>
+                    
+                    <NavLink to="/updatereimbursement" className="nav-link" activeClassName="active">Approve/Deny a reimbursement</NavLink>
+                    
+                </NavItem>
       
             </Nav>
       

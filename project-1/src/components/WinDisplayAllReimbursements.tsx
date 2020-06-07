@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Container, Row, Col, Spinner, Button, Input, Label } from "reactstrap";
+import { Container, Row, Col, Spinner, Button, Input, Label, NavItem, Nav } from "reactstrap";
 
 import { getAllReimbursements, getReimbursementsByAUID } from "../api/Employee1";
 
@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import  Reimbursement  from "../models/Reimbursement";
 
 import ObjectTable from "./TableModel";
+import {  NavLink } from "react-router-dom";
 
 
 
@@ -151,6 +152,7 @@ console.log(changeEvent);
 
 };
   
+
    
  render() {
 
@@ -161,7 +163,7 @@ console.log(changeEvent);
         <Button onClick={this.fetchReimbursements}>All reimbursements</Button>
         <Button onClick={this.fetchPendingReimbursements}> Pending reimbursements</Button>
         <Button onClick={this.fetchResolvedReimbursements}>Resolved reimbursements</Button>
-        <Button>Approve/Deny A Reimbursement</Button>
+        
         <Label for="AUID">Enter Employee ID here:</Label><Input  onChange= {this.setAUID} value= {this.state.AUID} type="text" name="AUID" id="AUID"  ></Input><Button name="AUID" onClick={this.fetchAUIDReimbursements}>Submit</Button>
         
 

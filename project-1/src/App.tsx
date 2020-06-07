@@ -18,6 +18,7 @@ import WinNewReimbursement from "./components/WinNewReimbursement";
 import WinDisplayUserInfo from "./components/WinDisplayUserInfo";
 import WinDisplayReimbursements from "./components/WinDisplayReimbursements"
 import WinLogOut from "./components/WinLogOut";
+import WinUpdateReimbursements from "./components/WinUpdateReimbursements";
 
 
 
@@ -152,7 +153,18 @@ export default class App extends React.Component<any, any> {
   
                 );
               }}
-            />   
+            />  
+
+<Route path="/updatereimbursement"
+
+render= {(props:any) => {return (
+
+  <WinUpdateReimbursements {...props} loggedInUser={this.state.loggedInUser} />
+
+  );
+}}
+/>  
+
             <Route path="/managers"
 
               render={(props: any) => {return (
