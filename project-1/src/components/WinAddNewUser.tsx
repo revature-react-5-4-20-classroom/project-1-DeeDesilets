@@ -1,6 +1,6 @@
 import React from 'react';
 import User from '../models/User';
-import { addNewUser } from '../api/Employee';
+import { addNewUser } from '../api/Employee1';
 import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { toast } from 'react-toastify';
 

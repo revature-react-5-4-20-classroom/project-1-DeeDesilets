@@ -14,14 +14,17 @@ const employee = axios.create({
   
   });
 
-export async function getReimbursementsByAUID (id : number) : Promise <Reimbursement[]> {
+export async function getReimbursementsByAUID (userId : number) : Promise <Reimbursement[]> {
 try {
-  let response = await employee.get('/reimbursements/author/:id');
-
+  
+  console.log("hi from inside try block of AUID");
+  const url= '/reimbursements/author/userId/' + userId;
+  let response = await employee.get(url);
+console.log(response);
   return response.data.map((r : Reimbursement) => {
 
     let {reimbursementId, author, amount, dateSubmitted, dateResolved, description, resolver, status, type} = r;
-
+console.log (r);
     return new Reimbursement (reimbursementId, author, amount, dateSubmitted, dateResolved, description, resolver, status, type);
   
   });} catch (e)  {
@@ -45,13 +48,14 @@ try {
 }
 
 
-export async function submitReimbursements (author: number, amount: number, datesubmitted: number, description: string, type: number ) : Promise <Reimbursement> {
+export async function submitReimbursements (author: number, amount: number, dateSubmitted: number, description: string, type: number ) : Promise <Reimbursement> {
 
     try {
       console.log('nside try block/frontend/api');
-      let response: any = await employee.post('/reimbursements', {"author" : "author", "amount" : "amount", "datesubmitted" : "datesubmitted", "description" : "description", "type" : "type"});
+      let response: any = await employee.post('/reimbursements', {"author" : author, "amount" : amount, "datesubmitted" : dateSubmitted, "description" : "description", "type" : type});
       console.log(response.data);
       return new Reimbursement (response.data.reimbursementId, response.data.author, response.data.amount, response.data.dateSubmitted, response.data.dateResolved, response.data.description, response.data.resolver, response.data.status, response.data.type);
+    
     } catch (e) {
       console.log("inside catch front end api");
         throw new FailedUpdate('Failed to submit reimbursement.' );
@@ -80,6 +84,7 @@ try {
 
   return response.data.map((u: any) => {
     let {id, username, password, firstname, lastname, email, role} = u;
+    console.log(u);
     return new User(id, username, password, firstname, lastname, email, role);
   });} catch (e) {
     

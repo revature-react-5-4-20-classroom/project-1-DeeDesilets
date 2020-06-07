@@ -2,7 +2,7 @@ import React from "react";
 
 import { Container, Row, Col, Spinner, Button } from "reactstrap";
 
-import { getAllUsers } from "../api/Employee";
+import { getAllUsers } from "../api/Employee1";
 
 import { toast } from "react-toastify";
 
@@ -84,6 +84,9 @@ export default class WinDisplayAllUsers extends React.Component<any, IWinDisplay
 
         <Button> Add New Employee </Button>
         <Button> Delete An Employee </Button>
+        <Button>
+          Update Employee Role
+        </Button>
 
         <Row>
 

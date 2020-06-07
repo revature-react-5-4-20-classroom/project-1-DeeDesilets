@@ -1,5 +1,6 @@
 import React from "react";
-
+import WinDisplayAllUsers from "./components/WinDisplayAllUsers";
+import WinDisplayAllReimbursements from "./components/WinDisplayAllReimbursements";
 import {
   BrowserRouter as Router,
   Route,
@@ -16,9 +17,8 @@ import WinEmployeePage from "./components/WinEmployeePage";
 import WinNewReimbursement from "./components/WinNewReimbursement";
 import WinDisplayUserInfo from "./components/WinDisplayUserInfo";
 import WinDisplayReimbursements from "./components/WinDisplayReimbursements"
-import WinUpdateUser  from "./components/WinUpdateUser";
-import WinDisplayAllUsers from "./components/WinDisplayAllUsers";
-import WinDisplayAllReimbursements from "./components/WinDisplayAllReimbursements";
+import WinLogOut from "./components/WinLogOut";
+
 
 
 
@@ -37,7 +37,7 @@ export default class App extends React.Component<any, any> {
 
   }
 
-
+  
 
   updateLoggedInUser = (u: User) => {
 
@@ -134,7 +134,7 @@ export default class App extends React.Component<any, any> {
               }}
             />   
 
-            <Route path="/updateuser"
+            {/*<Route path="/updateuser"
 
               render= {(props:any) => {return (
               
@@ -142,7 +142,7 @@ export default class App extends React.Component<any, any> {
   
                 );
               }}
-            />   
+            /> */}  
 
             <Route path="/reimbursements"
 
@@ -192,6 +192,16 @@ export default class App extends React.Component<any, any> {
               }}
 
             />  
+
+<Route path="/logout"
+
+render={(props: any) => {return (
+
+  <WinLogOut  {...props}  logoutUser={this.logoutUser} loggedInUser={this.state.loggedInUser} />
+
+  );
+}}
+/>
 
             <Route path="*"
 

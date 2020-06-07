@@ -3,14 +3,14 @@ import User from '../models/User';
 import { NavItem, Nav, } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 
-interface IWinEmployeePageProps {loggedInUser: User; logoutUser: ()=>void; history: any}
 
-export default class WinEmployeePage extends React.Component <IWinEmployeePageProps, any> {
+
+export default class WinEmployeePage extends React.Component <any, any> {
     
   render () {
     return (
       <>
-        <p>Hello, {this.props.loggedInUser.firstName}.  Welcome back.</p>   
+        <p>Hello.  Welcome back.</p>   
         <p> What would you like to start with today? </p>
         <br/>
 

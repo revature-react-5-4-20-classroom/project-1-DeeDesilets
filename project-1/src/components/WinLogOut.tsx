@@ -1,43 +1,46 @@
 
 import React from 'react';
-import User from '../models/User';
 
 
 
 
 
 interface IWinLogOutProps {
-  updateUser: (user:User) => void;
-  username: string;
-  history: any; 
+  logoutUser: () => void;
+    history: any; 
   
 }
-export default class WinLogOut extends React.Component <IWinLogOutProps> {
+export default class WinLogOut extends React.Component <IWinLogOutProps, any> {
   
     
-    componentDidMount = () => {
-        (this.props.updateUser(new User(0, " ", " ", " ", " ", " ", " ")));
+    componentDidMount()  {
+        this.props.logoutUser();
+    }  
 
-        }
-    componentWillUnmount = () => {
-        {this.props.history.push('/home')} 
+    componentWillUnmount() {
+        this.props.history.push('/home'); 
     }     
         
-        
-        
+    
     
          
     render() {
         
         return (
-            <>
-            <h1>Thanks for stopping by, {this.props.username}.</h1>
-            <h1>Come again, soon.</h1>
-            <h1> Good Bye. </h1>
+            <div>
+                <h1>Thanks for stopping by.</h1>
+                <h1>Come again soon.</h1>
+                <h1> Good Bye. </h1>
+            
+
+               
+
+            
+                
             
             
            
-            </>
+            </div>
         );
     }
 

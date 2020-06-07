@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Table } from "reactstrap";
+import FailedRequest from "../errors/FailedRequest";
 
 
 
@@ -10,18 +11,26 @@ interface IObjectTableProps {
 
 }
 
+interface IObjectTableState {
+  defaultObjects: any[];
+}
 
 
 /** Quick reactstrap table that builds a table out of props.objects.  All objects should have the same fields in order.*/
 
-export default class ObjectTable extends React.Component<IObjectTableProps> {
+export default class ObjectTable extends React.Component<IObjectTableProps, IObjectTableState> {
 
-
+  constructor (props: IObjectTableProps) {
+    super(props);
+    this.state = {
+      defaultObjects: [{"empty1" : "", "empty2" : "", "empty3" : ""}]
+    }
+  }
 
   render() {
 
     return (
-
+      
       <Table striped >
 
         <thead>
@@ -29,12 +38,16 @@ export default class ObjectTable extends React.Component<IObjectTableProps> {
           <tr>
 
             {/* Generate one column header for each key on the first object in props.objects */}
-
-            {Object.keys(this.props.objects[0]).map((key: any) => {
+    
+            {this.props.objects[0] ? (Object.keys(this.props.objects[0]).map((key: any) => {
 
               return <th key={key}>{key}</th>;
 
-            })}
+            })) : (Object.keys(this.state.defaultObjects[0]).map((key: any) => {
+
+              return <th key={key}>{key}</th>;
+
+            }))} 
 
           </tr>
 

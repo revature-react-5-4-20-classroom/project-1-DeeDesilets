@@ -2,7 +2,7 @@ import React from "react";
 
 import { Container, Row, Col, Spinner, Button } from "reactstrap";
 
-import {getReimbursementsByAUID, getReimbursementsBySID } from "../api/Employee";
+import {getReimbursementsByAUID } from "../api/Employee1";
 
 import { toast } from "react-toastify";
 
@@ -45,25 +45,81 @@ export default class WinDisplayReimbursements extends React.Component<IWinDispla
 
 
 
-  async componentDidMount() {
-
-    await this.fetchReimbursements();
-
-  }
-
-
-
   
 
 
 
-  fetchReimbursements = async () => {
+ fetchReimbursements  = async (userId: number)    => {
 
     try {
 
       this.setState({
 
         reimbursements: await getReimbursementsByAUID (this.props.loggedInUser.userId),
+        
+
+        reimbursementsLoaded: true,
+
+      });
+      console.log("after state set but inside try block on AUID window fetch");
+console.log(this.state.reimbursements);
+      } catch (e) {
+
+          toast(e.message, {type:"error"});
+
+      }
+
+  }
+
+  
+
+  fetchPendingReimbursements = (reimbursements: Reimbursement []) => {
+
+    try {
+
+      this.setState({
+
+       reimbursements : reimbursements.filter(r => r.status === 3),
+
+        reimbursementsLoaded: true,
+
+      });
+
+      } catch (e) {
+
+          toast(e.message, {type:"error"});
+
+      }
+
+  }
+
+  fetchResolvedReimbursements = (reimbursements: Reimbursement[]) => {
+
+    try {
+
+      this.setState({
+
+        reimbursements : reimbursements.filter(r => (r.status === 1 || r.status === 2)),
+
+        reimbursementsLoaded: true,
+
+      });
+
+      } catch (e) {
+
+          toast(e.message, {type:"error"});
+
+      }
+
+  }
+
+  fetchDeniedReimbursements =  (reimbursements: Reimbursement[]) => {
+
+    try {
+
+      this.setState({
+
+        reimbursements : reimbursements.filter(r => r.status === 2),
 
         reimbursementsLoaded: true,
 
@@ -79,65 +135,7 @@ export default class WinDisplayReimbursements extends React.Component<IWinDispla
 
   
 
-  fetchPendingReimbursements = async () => {
 
-    try {
-
-      this.setState({
-
-        reimbursements: await getReimbursementsBySID(3),
-
-        reimbursementsLoaded: true,
-
-      });
-
-      } catch (e) {
-
-          toast(e.message, {type:"error"});
-
-      }
-
-  }
-
-  fetchApprovedReimbursements = async () => {
-
-    try {
-
-      this.setState({
-
-        reimbursements: await getReimbursementsBySID(1),
-
-        reimbursementsLoaded: true,
-
-      });
-
-      } catch (e) {
-
-          toast(e.message, {type:"error"});
-
-      }
-
-  }
-
-  fetchDeniedReimbursements = async () => {
-
-    try {
-
-      this.setState({
-
-        reimbursements: await getReimbursementsBySID(2),
-
-        reimbursementsLoaded: true,
-
-      });
-
-      } catch (e) {
-
-          toast(e.message, {type:"error"});
-
-      }
-
-  }
 
   render() {
 
@@ -146,10 +144,10 @@ export default class WinDisplayReimbursements extends React.Component<IWinDispla
 
       <Container>
 
-        <Button onClick={this.fetchReimbursements}>All reimbursements</Button>
-        <Button onClick={this.fetchPendingReimbursements}> Pending reimbursements</Button>
-        <Button onClick={this.fetchApprovedReimbursements}>Approved reimbursements</Button>
-        <Button onClick={this.fetchDeniedReimbursements}>Denied reimbursements</Button>
+        <Button onClick={() => this.fetchReimbursements(this.props.loggedInUser.userId)}>All reimbursements</Button>
+        <Button onClick={() =>this.fetchPendingReimbursements(this.state.reimbursements)}> Pending reimbursements</Button>
+        <Button onClick={() =>this.fetchResolvedReimbursements(this.state.reimbursements)}>Resolved reimbursements</Button>
+        
 
 
         <Row>

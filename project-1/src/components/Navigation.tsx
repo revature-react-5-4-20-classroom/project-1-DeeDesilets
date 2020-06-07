@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Nav, NavItem, Button, } from 'reactstrap';
+import { Nav, NavItem } from 'reactstrap';
 
 import { NavLink } from 'react-router-dom';
 
@@ -55,7 +55,11 @@ export default class Navigation extends React.Component<NavigationProps> {
                 </NavItem>
 
                 
-                <NavItem tag={()=>{return <Button  hidden={!this.props.loggedInUser} onClick={this.props.logoutUser} color="secondary" outline>Logout</Button>}} />
+                <NavItem>
+
+                    <NavLink hidden={!this.props.loggedInUser} to="/logout" className="nav-link" activeClassName="active">Logout</NavLink>
+
+                </NavItem>
 
                     
 

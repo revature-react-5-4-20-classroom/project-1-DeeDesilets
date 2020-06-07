@@ -2,7 +2,7 @@ import React from "react";
 
 import { Container, Row, Col, Spinner, Button, Input, Label } from "reactstrap";
 
-import { getAllReimbursements, getReimbursementsBySID } from "../api/Employee";
+import { getAllReimbursements, getReimbursementsByAUID } from "../api/Employee1";
 
 import { toast } from "react-toastify";
 
@@ -15,6 +15,7 @@ import ObjectTable from "./TableModel";
 
 
 interface IWinDisplayAllReimbursementsState {
+  AUID: number;
 
   reimbursements: Reimbursement[];
 
@@ -31,6 +32,7 @@ export default class WinDisplayAllReimbursements extends React.Component<any, IW
     super(props);
 
     this.state = {
+      AUID: 0,
 
       reimbursements: [],
 
@@ -39,21 +41,6 @@ export default class WinDisplayAllReimbursements extends React.Component<any, IW
     };
 
   }
-
-
-
-  async componentDidMount() {
-
-    await this.fetchReimbursements();
-
-  }
-
-componentWillUnmount() {
-
-}
-
-  
-
 
 
   fetchReimbursements = async () => {
@@ -74,15 +61,21 @@ componentWillUnmount() {
 
       }
 
-  }
+  };
 
-  fetchPendingReimbursements = async () => {
+  componentDidMount = async () =>{
+
+    await this.fetchReimbursements();
+
+  };
+ 
+  fetchPendingReimbursements= () => {
 
     try {
 
       this.setState({
 
-        reimbursements: await getReimbursementsBySID(3),
+       reimbursements : this.state.reimbursements.filter(r => r.status === 3),
 
         reimbursementsLoaded: true,
 
@@ -94,15 +87,15 @@ componentWillUnmount() {
 
       }
 
-  }
+  };
 
-  fetchApprovedReimbursements = async () => {
+  fetchResolvedReimbursements = () => {
 
     try {
 
       this.setState({
 
-        reimbursements: await getReimbursementsBySID(1),
+        reimbursements : this.state.reimbursements.filter(r => (r.status === 1 || r.status === 2)),
 
         reimbursementsLoaded: true,
 
@@ -114,29 +107,52 @@ componentWillUnmount() {
 
       }
 
-  }
+  };
 
-  fetchDeniedReimbursements = async () => {
+  
+
+  setAUID = (changeEvent: any) => {
+
+console.log(changeEvent);
+
+    this.setState({
+
+
+
+      AUID: parseInt(changeEvent.currentTarget.value, 10),
+
+
+
+    });
+
+    console.log(this.state.AUID);
+
+  };
+
+  fetchAUIDReimbursements =  () =>  {
+  
+  
 
     try {
-
+  
       this.setState({
+  
+        
 
-        reimbursements: await getReimbursementsBySID(2),
-
+        reimbursements:  this.state.reimbursements.filter(r => r.author === this.state.AUID),
+  
         reimbursementsLoaded: true,
-
       });
+    }  catch (e) {
 
-      } catch (e) {
-
-          toast(e.message, {type:"error"});
-
-      }
+      toast(e.message, {type:"error"});
 
   }
 
-  render() {
+};
+  
+   
+ render() {
 
     return (
 
@@ -144,10 +160,10 @@ componentWillUnmount() {
 
         <Button onClick={this.fetchReimbursements}>All reimbursements</Button>
         <Button onClick={this.fetchPendingReimbursements}> Pending reimbursements</Button>
-        <Button onClick={this.fetchApprovedReimbursements}>Approved reimbursements</Button>
-        <Button onClick={this.fetchDeniedReimbursements}>Denied reimbursements</Button>
-        <Label>Enter Employee ID here:</Label><Input type="text"></Input>
-        <Button>Update Reimbursement</Button>
+        <Button onClick={this.fetchResolvedReimbursements}>Resolved reimbursements</Button>
+        <Button>Approve/Deny A Reimbursement</Button>
+        <Label for="AUID">Enter Employee ID here:</Label><Input  onChange= {this.setAUID} value= {this.state.AUID} type="text" name="AUID" id="AUID"  ></Input><Button name="AUID" onClick={this.fetchAUIDReimbursements}>Submit</Button>
+        
 
         <Row>
 
@@ -176,5 +192,4 @@ componentWillUnmount() {
     );
 
   }
-
 }

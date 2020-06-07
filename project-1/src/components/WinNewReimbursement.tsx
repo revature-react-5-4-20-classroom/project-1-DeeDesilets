@@ -2,17 +2,14 @@ import React from 'react';
 
 import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
 
-import { submitReimbursements } from '../api/Employee';
+
+import { submitReimbursements } from '../api/Employee1';
 
 import { toast } from 'react-toastify';
+import Reimbursement from '../models/Reimbursement';
 
 
 
-interface IWinNewReimbursementProps {
-
-    addReimbursement: ()=>void
-
-}
 
 
 
@@ -27,9 +24,9 @@ interface IWinNewReimbursementState {
 
 
 
-export default class IWinNewReimbursement extends React.Component<IWinNewReimbursementProps, IWinNewReimbursementState> {
+export default class IWinNewReimbursement extends React.Component<any, IWinNewReimbursementState> {
 
-    constructor(props: any) {
+    constructor(props: any ) {
 
         super(props);
 
@@ -49,24 +46,144 @@ export default class IWinNewReimbursement extends React.Component<IWinNewReimbur
 
     }
 
+    setAmount = (changeEvent: any) => {
 
 
-    submitReimbursement = async (submitEvent: any) => {
 
-        submitEvent.preventDefault();
+      this.setState({
+  
+  
+  
+        amount: parseInt(changeEvent.currentTarget.value, 10),
+  
+  
+  
+      });
+  
+  
+  
+    };
+  
+  
+  
+  
+  
+  
+  
+    setAuthor = (changeEvent: any) => {
+  
+  
+  
+      this.setState({
+  
+  
+  
+        author: parseInt(changeEvent.currentTarget.value, 10),
+  
+  
+  
+      });
+  
+  
+  
+    };
+  
+    setDateSubmitted = (changeEvent: any) => {
 
+
+
+      this.setState({
+  
+  
+  
+        dateSubmitted: parseInt(changeEvent.currentTarget.value, 10),
+  
+  
+  
+      });
+  
+  
+  
+    };
+  
+  
+  
+  
+  
+  
+  
+    setDescription = (changeEvent: any) => {
+  
+  
+  
+      this.setState({
+  
+  
+  
+        description: changeEvent.currentTarget.value,
+  
+  
+  
+      });
+  
+  
+  
+    };
+
+    setType = (changeEvent: any) => {
+  
+  
+  
+      this.setState({
+  
+  
+  
+        type: parseInt(changeEvent.currentTarget.value, 10),
+  
+  
+  
+      });
+  
+  
+  
+    };
+
+    clearForm = () => {
+
+      this.setState({
+
+          author: 0,
+
+          amount: 0,
+
+          dateSubmitted: -999999,
+          
+          description: " ",
+
+          type: 0
+      })
+
+  }
+
+
+
+    async submitReimbursements(submitEvent: any)  {
+
+console.log("hi from winnewreimbursement before try");
         try {
+console.log("from inside try on winnewreimb");
+console.log(`${this.state.author}, ${this.state.amount}, ${this.state.dateSubmitted}, ${this.state.description}, and ${this.state.type}`)
+            const response = await submitReimbursements(this.state.author, this.state.amount, this.state.dateSubmitted, this.state.description, this.state.type);
+console.log(response.reimbursementId);
+            if (response) {
+            toast(`${response.reimbursementId} for ${response.amount} added successfully!`, {type: "success"});
 
-            const submittedReimbursement = await submitReimbursements(this.state.author, this.state.amount, this.state.dateSubmitted, this.state.description, this.state.type);
-
-            toast(`${submittedReimbursement.reimbursementId} for ${submittedReimbursement.amount} added successfully!`, {type: "success"});
-
-            this.props.addReimbursement()
+            
 
             this.clearForm();
 
-        } catch (e) {
-
+        }} catch (e) {
+console.log("hi from inside catch on winnewreimb");
             toast(e.message, {type:"error"});
 
         }
@@ -75,35 +192,11 @@ export default class IWinNewReimbursement extends React.Component<IWinNewReimbur
 
 
 
-    clearForm = () => {
-
-        this.setState({
-
-            author: 0,
-
-            amount: 0,
-
-            dateSubmitted: -999999,
-            
-            description: " ",
-
-            type: 0
-        })
-
-    }
+    
 
 
 
-    bindInputChangeToState = (event:any) => {
-      //@ts-ignore
-      this.setState({
-           
-           [event.currentTarget.amount]: event.currentTarget.value,
-           [event.currentTarget.dateSubmitted]: event.currentTarget.value,
-           [event.currentTarget.description]: event.currentTarget.value,
-           [event.currentTarget.type]: event.currentTarget.value,
-      });
-  }
+    
 
 
 
@@ -111,7 +204,30 @@ export default class IWinNewReimbursement extends React.Component<IWinNewReimbur
 
         return (
 
-            <Form onSubmit={this.submitReimbursement}>
+            <Form onSubmit={this.submitReimbursements}>
+
+<FormGroup>
+
+<Label for="author">Author</Label>
+
+  <Input
+
+    onChange={this.setAuthor}
+
+    value={this.state.author}
+
+    type="text"
+
+    name="author"
+
+    id="author"
+
+    required
+
+  />
+
+</FormGroup>
+
 
               
               <FormGroup>
@@ -120,7 +236,7 @@ export default class IWinNewReimbursement extends React.Component<IWinNewReimbur
 
                 <Input
 
-                  onChange={this.bindInputChangeToState}
+                  onChange={this.setAmount}
 
                   value={this.state.amount}
 
@@ -138,11 +254,11 @@ export default class IWinNewReimbursement extends React.Component<IWinNewReimbur
 
               <FormGroup>
 
-              <Label for="dateSubmitted">Today's Date</Label>
+              <Label for="dateSubmitted">Today's Date (yymmdd)</Label>
 
                 <Input
 
-                  onChange={this.bindInputChangeToState}
+                  onChange={this.setDateSubmitted}
 
                   value={this.state.dateSubmitted}
 
@@ -166,7 +282,7 @@ export default class IWinNewReimbursement extends React.Component<IWinNewReimbur
 
                 <Input
 
-                  onChange={this.bindInputChangeToState}
+                  onChange={this.setDescription}
 
                   value={this.state.description}
 
@@ -175,6 +291,7 @@ export default class IWinNewReimbursement extends React.Component<IWinNewReimbur
                   name="description"
 
                   id="description"
+                  required
 
                 />
 
@@ -186,7 +303,7 @@ export default class IWinNewReimbursement extends React.Component<IWinNewReimbur
 
                 <Input
 
-                  onChange={this.bindInputChangeToState}
+                  onChange={this.setType}
 
                   value={this.state.type}
 
@@ -195,16 +312,17 @@ export default class IWinNewReimbursement extends React.Component<IWinNewReimbur
                   name="type"
 
                   id="type"
+                  required
 
                 />
 
               </FormGroup>
 
-              <Button>Submit Reimbursement</Button>
+              <Button type="submit">Submit Reimbursement</Button>
 
-              <label>Upload a file image of receipt here</label>
+              {/*<label>Upload a file image of receipt here</label>
 
-              <input  type="file" name="receipt"  id="receipt" ></input>
+              <input  type="file" name="receipt"  id="receipt" ></input>*/}
 
             </Form>
 
