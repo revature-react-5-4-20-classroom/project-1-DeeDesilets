@@ -8,7 +8,7 @@ import FailedRequest from '../errors/FailedRequest';
 
 const employee = axios.create({
 
-    baseURL: 'http://localhost:6464',
+    baseURL: 'http://3.81.26.224:6464',
   
     withCredentials: true,
   
