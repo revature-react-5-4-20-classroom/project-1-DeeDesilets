@@ -167,25 +167,25 @@ export default class IWinNewReimbursement extends React.Component<any, IWinNewRe
 
 
 
-    async submitReimbursements(submitEvent: any)  {
-
+    submitReimbursements = async (submitEvent: any) => {
+console.log(submitEvent);
       submitEvent.preventDefault();
 
-console.log("hi from winnewreimbursement before try");
+
         try {
-console.log("from inside try on winnewreimb");
-console.log(`${this.state.author}, ${this.state.amount}, ${this.state.dateSubmitted}, ${this.state.description}, and ${this.state.type}`)
-            const response = await submitReimbursements(this.state.author, this.state.amount, this.state.dateSubmitted, this.state.description, this.state.type);
-console.log(response.reimbursementId);
+          console.log(`${this.state.author} and ${this.state.amount} and ${this.state.dateSubmitted} and ${this.state.description} and ${this.state.type}`);
+            const response : any = await submitReimbursements(this.state.author, this.state.amount, this.state.dateSubmitted, this.state.description, this.state.type);
+
             if (response) {
-            toast(`${response.reimbursementId} for ${response.amount} added successfully!`, {type: "success"});
+
+            toast(`New reimbursement added successfully!`, {type: "success"});
 
             
 
             this.clearForm();
 
         }} catch (e) {
-console.log("hi from inside catch on winnewreimb");
+
             toast(e.message, {type:"error"});
 
         }
@@ -322,9 +322,9 @@ console.log("hi from inside catch on winnewreimb");
 
               <Button type="submit">Submit New Reimbursement</Button>
 
-              {/*<label>Upload a file image of receipt here</label>
+              <label>Upload a file image of receipt here</label>
 
-              <input  type="file" name="receipt"  id="receipt" ></input>*/}
+              <input  type="file" name="receipt"  id="receipt" ></input>
 
             </Form>
 

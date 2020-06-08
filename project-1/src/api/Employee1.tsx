@@ -48,16 +48,16 @@ try {
 }
 
 
-export async function submitReimbursements (author: number, amount: number, dateSubmitted: number, description: string, type: number ) : Promise <Reimbursement> {
+export async function submitReimbursements (author: number, amount: number, datesubmitted: number, description: string, type: number ) : Promise <boolean> {
 
     try {
-      console.log('nside try block/frontend/api');
-      let response: any = await employee.post('/reimbursements', {"author" : author, "amount" : amount, "datesubmitted" : dateSubmitted, "description" : "description", "type" : type});
-      console.log(response.data);
-      return new Reimbursement (response.data.reimbursementId, response.data.author, response.data.amount, response.data.dateSubmitted, response.data.dateResolved, response.data.description, response.data.resolver, response.data.status, response.data.type);
+      
+      return (await employee.post('/reimbursements', {"author" : author, "amount" : amount, "datesubmitted" : datesubmitted, "description" : description, "type" : type}))
+     
+      
     
     } catch (e) {
-      console.log("inside catch front end api");
+      
         throw new FailedUpdate('Failed to submit reimbursement.' );
   
        
