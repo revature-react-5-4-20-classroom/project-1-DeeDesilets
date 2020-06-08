@@ -15,20 +15,16 @@ export default class WinDisplayUserInfo extends React.Component <IWinDisplayUser
     render () {
       return (
         <>
-           
+              <h3>Employee ID number: {this.props.loggedInUser.userId}</h3>
               <h3>First Name: {this.props.loggedInUser.firstName}</h3> 
               <h3>Last Name: { this.props.loggedInUser.lastName}</h3> 
               <h3>Username: { this.props.loggedInUser.username}</h3>
               <h3>Password:  { this.props.loggedInUser.password}</h3>
               <h3>Email Address:  { this.props.loggedInUser.email}</h3>
               <h3>finance manager, admin, or employee?  {this.props.loggedInUser.role}</h3>
-              <h3>Employee ID number: {this.props.loggedInUser.userId}</h3>
+              
             
-            <NavItem>
-
-            <NavLink  to='/updateuser'><Button color="secondary" outline>Update Employee Profile</Button> </NavLink>
-
-          </NavItem>
+            
 
 
           

@@ -3,6 +3,7 @@ import User from '../models/User';
 import { FormGroup, Label, Input, Form, Button } from 'reactstrap';
 import {updateReimbursements} from '../api/Employee1';
 import { toast } from 'react-toastify';
+import Reimbursement from '../models/Reimbursement';
 
 interface IWinUpdateReimbursementsProps {
     history: any;
@@ -126,23 +127,25 @@ export default class WinUpdateReimbursements extends React.Component <IWinUpdate
   
     }
     
-    async updateAReimbursement(submitEvent: any)  {
+    updateAReimbursement = async (submitEvent: any) => {
 
-        console.log("hi from winupdreimbursement before try");
+      submitEvent.preventDefault(); 
+
+        
                 try {
-        console.log("from inside try on winupdreimb");
-        console.log(`${this.state.reimbursementId}, ${this.state.resolver}, ${this.state.dateResolved}, and ${this.state.status}`)
-                    const response = await updateReimbursements(this.state.reimbursementId, this.state.dateResolved, this.state.resolver, this.state.status);
-        console.log(response.reimbursementId);
+        
+                    const response : any = await updateReimbursements(this.state.reimbursementId, this.state.dateResolved, this.state.resolver, this.state.status);
+       
                     if (response) {
-                    toast(`${response.reimbursementId} for ${response.amount} added successfully!`, {type: "success"});
+
+                    toast(`reimbursement updated successfully!`, {type: "success"});
         
                     
         
                     this.clearForm();
         
                 }} catch (e) {
-        console.log("hi from inside catch on winupdreimb");
+        ;
                     toast(e.message, {type:"error"});
         
                 }
@@ -266,7 +269,7 @@ export default class WinUpdateReimbursements extends React.Component <IWinUpdate
 
               
 
-              <Button type="submit">Submit Reimbursement</Button>
+              <Button type="submit">Update Reimbursement</Button>
 
               
 

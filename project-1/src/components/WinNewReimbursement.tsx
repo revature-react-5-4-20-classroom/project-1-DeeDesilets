@@ -169,6 +169,8 @@ export default class IWinNewReimbursement extends React.Component<any, IWinNewRe
 
     async submitReimbursements(submitEvent: any)  {
 
+      submitEvent.preventDefault();
+
 console.log("hi from winnewreimbursement before try");
         try {
 console.log("from inside try on winnewreimb");
@@ -318,7 +320,7 @@ console.log("hi from inside catch on winnewreimb");
 
               </FormGroup>
 
-              <Button type="submit">Submit Reimbursement</Button>
+              <Button type="submit">Submit New Reimbursement</Button>
 
               {/*<label>Upload a file image of receipt here</label>
 

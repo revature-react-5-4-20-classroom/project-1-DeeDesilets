@@ -20,7 +20,7 @@ export default class WinManagerPage extends React.Component <IWinManagerPageProp
     render () {
         return (
             <>
-                 <h1> Hello, {this.props.loggedInUser.firstName} {this.props.loggedInUser.lastName} Welcome back. </h1>
+                 <h1> Hello. Welcome back. </h1>
                  
                  <h3>what would you like to start with today?</h3>
             
@@ -36,7 +36,14 @@ export default class WinManagerPage extends React.Component <IWinManagerPageProp
 
                     <NavLink  to="/user" className="nav-link" activeClassName="active">View your own employee profile</NavLink>
 
-                </NavItem>   
+                </NavItem>  
+
+                <NavItem>
+
+                    <NavLink  to="/updateuser" className="nav-link" activeClassName="active">Update Employee Profile</NavLink>
+
+                </NavItem>
+
 
                 <NavItem>
 

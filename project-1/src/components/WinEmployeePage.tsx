@@ -33,6 +33,12 @@ export default class WinEmployeePage extends React.Component <any, any> {
 
           </NavItem>
 
+          <NavItem>
+
+            <NavLink  to="/updateuser" className="nav-link" activeClassName="active">Update Employee Profile</NavLink>
+
+          </NavItem>
+
         </Nav>
 
     </>

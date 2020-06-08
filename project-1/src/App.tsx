@@ -19,6 +19,7 @@ import WinDisplayUserInfo from "./components/WinDisplayUserInfo";
 import WinDisplayReimbursements from "./components/WinDisplayReimbursements"
 import WinLogOut from "./components/WinLogOut";
 import WinUpdateReimbursements from "./components/WinUpdateReimbursements";
+import WinUpdateUser from "./components/WinUpdateUser";
 
 
 
@@ -135,7 +136,7 @@ export default class App extends React.Component<any, any> {
               }}
             />   
 
-            {/*<Route path="/updateuser"
+           <Route path="/updateuser"
 
               render= {(props:any) => {return (
               
@@ -143,7 +144,7 @@ export default class App extends React.Component<any, any> {
   
                 );
               }}
-            /> */}  
+            /> 
 
             <Route path="/reimbursements"
 

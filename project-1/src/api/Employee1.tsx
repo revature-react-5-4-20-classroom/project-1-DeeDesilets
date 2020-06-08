@@ -64,12 +64,12 @@ export async function submitReimbursements (author: number, amount: number, date
     }
   }
  
-  export async function updateReimbursements (reimbursementId: number,  dateResolved: number, resolver: number, status: number ) : Promise <Reimbursement> {
+  export async function updateReimbursements (reimbursementid: number,  dateresolved: number, resolver: number, status: number ) : Promise <boolean> {
 
     try {
-      let response : any = await employee.patch('/reimbursements', {"dateresolved" : "dateresolved", "resolver":"resolver", "status":"status"});
+      let response : any = await employee.patch('/reimbursements', {"reimbursementid": reimbursementid, "dateresolved" : dateresolved, "resolver":resolver, "status":status});
       
-        return new Reimbursement (response.data.reimbursementId, response.data.author, response.data.amount, response.data.datesubmitted, response.data.dateresolved, response.data.description, response.data.resolver, response.data.status, response.data.type);
+        return true;
     } catch (e) {
       
         throw new FailedUpdate('Failed to update reimbursement.' );
@@ -174,17 +174,14 @@ try {
   }
 }
 
-export async function updateUser (userId: number, username: string, password: string, firstName: string, lastName: string, email: string, ) : Promise <User[]> {
+export async function updateUser (userId: number, username: string, password: string, firstName: string, lastName: string, email: string, ) : Promise <boolean> {
   try {
-    let response = await employee.patch('/users', {"username" : "{user.username}", "password" : "{user.password}", "firstname" : "{user.firstname}", "lastname" : "{user.lastname}", "email" : "{user.email}", "role" : "{user.role}"});
+    let response = await employee.patch('/users', {"userid": userId, "username" : username, "password" : password, "firstname" : firstName, "lastname" : lastName, "email" : email});
   
-    return response.data.map((u : User) => {
-  
-      let {userId, username, password, firstName, lastName, email, role} = u;
-  
-      return new User (userId, username, password, firstName, lastName, email, role);
-    
-    });} catch (e)  {
+    return true;
+      
+
+    } catch (e)  {
       throw new FailedUpdate('Failed to update employee.' );
     }
   }
